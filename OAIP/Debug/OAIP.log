@@ -1,0 +1,3 @@
+﻿  Source.cpp
+D:\VSC++\OAIP\Source.cpp(15,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+  OAIP.vcxproj -> D:\VSC++\OAIP\Debug\OAIP.exe
