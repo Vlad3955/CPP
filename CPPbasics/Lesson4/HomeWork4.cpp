@@ -1,5 +1,6 @@
 ﻿#include <iostream>
-
+#include <cmath>
+#include <string>
 using namespace std;
 
 
@@ -43,14 +44,84 @@ void task2()
 }
 
 
+//============================================================
+//Task 3
+//============================================================
+
+void task3()
+{
+    
+	cout << "Your numbers: ";
+	 for (int i = 1; i <= 50; i = i + 2)
+	 {
+		 
+			 
+		 
+		 cout << i << " ";
+	 }
+	 cout << endl;
+}
+
+
+//============================================================
+//Task 4
+//============================================================
+
+void task4(int num)
+{
+	
+	string result = "true";
+
+	if (num > 1)
+	{
+		for (int i = 2; i < num; i++)
+		{
+			if (num % i == 0)
+			{
+				result = "false";
+			}
+		}
+	}
+	else
+	{
+		result = "false";
+	}
+
+	cout << result << endl;
+}
+
+
+//============================================================
+//Task 5
+//============================================================
+
+void task5()
+{
+	cout << ": ";
+
+	for (int i = 1; i <= 50; i = i + 2)
+	{
+
+
+
+		cout << i << " ";
+	}
+	cout << endl;
+}
+
+
 
 int main()
 {
 	setlocale(LC_ALL, "Russian");
 
-	//task1();
-	task2();
+	int num = 5;
 
+	//task1();
+	//task2();
+	task3();
+	task4(num);
+	
 
 	return 0;
 }
