@@ -21,4 +21,6 @@ int main()
 		P = foo(p1, p2);
 		cout << "p1 = " << p1 << endl << "p2 = " << p2 << endl << "P = " << P << endl << endl;
 	}
+
+	system("pause");
 }
