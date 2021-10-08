@@ -1,2 +1,3 @@
 D:\VSC++\OAIP\Debug\OAIP.exe
 D:\C++\CPP\CPP\OAIP\Debug\OAIP.exe
+C:\Geekbrains\Repositories\C++\CPP\OAIP\Debug\OAIP.exe
