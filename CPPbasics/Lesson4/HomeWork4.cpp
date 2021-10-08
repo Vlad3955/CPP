@@ -3,6 +3,7 @@
 #include <string>
 using namespace std;
 
+// Все функции кроме 5й закоментированы в main()
 
 //============================================================
 //Task 1
@@ -67,7 +68,7 @@ void task3()
 //Task 4
 //============================================================
 
-void task4(int num)
+int task4(int num)
 {
 	
 	string result = "true";
@@ -88,6 +89,8 @@ void task4(int num)
 	}
 
 	cout << result << endl;
+
+	return 0;
 }
 
 
@@ -95,18 +98,40 @@ void task4(int num)
 //Task 5
 //============================================================
 
+// Отпешитесь пожалуста, правильно ли решены 4 и 5?
+
 void task5()
 {
-	cout << ": ";
+	int year;
+	cout << "Введите год от 1-го до 3000-го: ";
 
-	for (int i = 1; i <= 50; i = i + 2)
+	cin >> year;
+
+	string result = "false";
+	for (int i = 1; i <= 3000; i = i + 3)
 	{
-
-
-
-		cout << i << " ";
+		if (i == year)
+		{
+			result = "true";
+		}
+		
 	}
-	cout << endl;
+	for (int i = 0; i < 3000; i = i + 100)
+	{
+		if (i == year)
+		{
+			result = "false";
+		}
+	}
+	for (int i = 0; i < 3000; i = i + 400)
+	{
+		if (i == year)
+		{
+			result = "true";
+		}
+	}
+     
+	cout << result << endl;
 }
 
 
@@ -115,12 +140,13 @@ int main()
 {
 	setlocale(LC_ALL, "Russian");
 
-	int num = 5;
+	int num = 121;
 
 	//task1();
 	//task2();
-	task3();
-	task4(num);
+	//task3();
+	//task4(num);
+	task5();
 	
 
 	return 0;
