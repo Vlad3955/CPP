@@ -51,25 +51,59 @@ void task2(int arr[], const int size)
 
 void task3(int arr[], const int size)
 {
+	int arrInit = 1;
 	for (int i = 0; i < size; i++)
 	{
-	
-		if (i == 0)
-		{
-			arr[i] = 1;
-		} 
-		else
-		{
-			arr[i] = i + 3;
-		}
+		arr[i] = arrInit;
+		arrInit += 3;
 	}
+
 	
 	for (int i = 0; i < size; i++)
 	{
 		cout << arr[i] << endl;
 	}
+}
 
-	
+
+//================================================================================
+// Task 4
+//================================================================================
+
+
+void task4(int arr[], const int size, int n)
+{
+	//int n;
+	//cout << "Enter number: ";
+	//cin >> n;
+
+	int arrIndFirst = arr[0]; 
+	int arrIndLast = arr[size - 1];
+
+	for (int i = 0; i < size; i++)
+	{
+		arr[i] = i;
+	}
+
+	for (int i = 0; i < size; i++)
+	{
+		if (n > 0)
+		{
+			arrIndLast = arr[0];
+		}
+		//arr[i] + 1;
+		if (n < 0)
+		{
+			arrIndFirst = arr[size - 1];
+		}
+		//arr[i] - 1;
+	}
+
+	for (int i = 0; i < size; i++)
+	{
+		cout << arr[i] << endl;
+	}
+
 }
 
 
@@ -98,5 +132,12 @@ int main()
 	//==========================================================
 	const int SIZE3 = 8;
 	int myArr3[SIZE3];
-	task3(myArr3, SIZE3);
+	//task3(myArr3, SIZE3);
+
+
+	// Task 3
+	//==========================================================
+	const int SIZE4 = 6;
+	int myArr4[SIZE4];
+	task4(myArr4, SIZE4, 2);
 }

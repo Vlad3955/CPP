@@ -1,2 +1,4 @@
 ﻿  HomeWork5.cpp
-  HomeWork5.vcxproj -> D:\C++\CPP\CPP\CPPbasics\Lesson5\HW5\HomeWork5\Debug\HomeWork5.exe
+D:\GB\CPP\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(76,7): error C2082: переопределение формального параметра "n"
+D:\GB\CPP\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(142,21): error C2660: task4: функция не принимает 2 аргументов
+D:\GB\CPP\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(74,6): message : см. объявление "task4"
