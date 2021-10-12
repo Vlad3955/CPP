@@ -70,29 +70,24 @@ void task3(int arr[], const int size)
 // Task 4
 //================================================================================
 
-
+// не смог(((
 void task4(int arr[], const int size, int n)
 {
 	
 	//cout << "Enter number: ";
 	//cin >> n;
-	int a = 0;
-	int arrIndFirst= arr[0];
-	int arrIndLast = arr[5];
 
 	for (int i = 0; i < size; i++)
 	{
 		arr[i] = i;
 	}
 
-	if (n > 0)
-	{
-		for (int i = ; i < n; i++)
+	
+		for (int i = 0; i < n; i++)
 		{
-			arr[i] + n;
-			arr[0] = arrIndLast;
+		
 		}
-	}
+
 
 	for (int i = 0; i < size; i++)
 	{
