@@ -73,30 +73,25 @@ void task3(int arr[], const int size)
 
 void task4(int arr[], const int size, int n)
 {
-	//int n;
+	
 	//cout << "Enter number: ";
 	//cin >> n;
-
-	int arrIndFirst = arr[0]; 
-	int arrIndLast = arr[size - 1];
+	int a = 0;
+	int arrIndFirst= arr[0];
+	int arrIndLast = arr[5];
 
 	for (int i = 0; i < size; i++)
 	{
 		arr[i] = i;
 	}
 
-	for (int i = 0; i < size; i++)
+	if (n > 0)
 	{
-		if (n > 0)
+		for (int i = ; i < n; i++)
 		{
-			arrIndLast = arr[0];
+			arr[i] + n;
+			arr[0] = arrIndLast;
 		}
-		//arr[i] + 1;
-		if (n < 0)
-		{
-			arrIndFirst = arr[size - 1];
-		}
-		//arr[i] - 1;
 	}
 
 	for (int i = 0; i < size; i++)
@@ -135,7 +130,7 @@ int main()
 	//task3(myArr3, SIZE3);
 
 
-	// Task 3
+	// Task 4
 	//==========================================================
 	const int SIZE4 = 6;
 	int myArr4[SIZE4];

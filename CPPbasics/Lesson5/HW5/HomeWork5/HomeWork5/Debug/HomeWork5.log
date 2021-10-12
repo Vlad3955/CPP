@@ -1,4 +1,20 @@
 ﻿  HomeWork5.cpp
-D:\GB\CPP\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(76,7): error C2082: переопределение формального параметра "n"
-D:\GB\CPP\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(142,21): error C2660: task4: функция не принимает 2 аргументов
-D:\GB\CPP\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(74,6): message : см. объявление "task4"
+C:\Geekbrains\Repositories\C++\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(90,16): error C2059: синтаксическая ошибка: ;
+C:\Geekbrains\Repositories\C++\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(90,20): warning C4552: "<": результат выражения не используется
+C:\Geekbrains\Repositories\C++\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(90,28): error C2059: синтаксическая ошибка: )
+C:\Geekbrains\Repositories\C++\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(92,14): error C2059: синтаксическая ошибка: ;
+C:\Geekbrains\Repositories\C++\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(97,2): error C2059: синтаксическая ошибка: for
+C:\Geekbrains\Repositories\C++\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(97,2): error C2143: синтаксическая ошибка: отсутствие ")" перед ";"
+C:\Geekbrains\Repositories\C++\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(97,20): error C2143: синтаксическая ошибка: отсутствие ";" перед "<"
+C:\Geekbrains\Repositories\C++\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(97,20): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
+C:\Geekbrains\Repositories\C++\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(97,29): error C2143: синтаксическая ошибка: отсутствие ";" перед "++"
+C:\Geekbrains\Repositories\C++\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(97,29): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
+C:\Geekbrains\Repositories\C++\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(97,28): error C2086: int i: переопределение
+C:\Geekbrains\Repositories\C++\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(97): message : см. объявление "i"
+C:\Geekbrains\Repositories\C++\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(97,31): error C2059: синтаксическая ошибка: )
+C:\Geekbrains\Repositories\C++\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(98,2): error C2143: синтаксическая ошибка: отсутствие ";" перед "{"
+C:\Geekbrains\Repositories\C++\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(98,2): error C2447: {: отсутствует заголовок функции (возможно, используется формальный список старого типа)
+C:\Geekbrains\Repositories\C++\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(102,1): error C2059: синтаксическая ошибка: }
+C:\Geekbrains\Repositories\C++\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(102,1): error C2143: синтаксическая ошибка: отсутствие ";" перед "}"
+C:\Geekbrains\Repositories\C++\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(107,1): error C2143: синтаксическая ошибка: отсутствие ";" перед "{"
+C:\Geekbrains\Repositories\C++\CPP\CPPbasics\Lesson5\HW5\HomeWork5\HomeWork5\HomeWork5.cpp(107,1): error C2447: {: отсутствует заголовок функции (возможно, используется формальный список старого типа)
