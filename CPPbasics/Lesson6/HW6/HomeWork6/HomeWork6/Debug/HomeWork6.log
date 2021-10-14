@@ -1,4 +1,4 @@
 ﻿  HomeWork6.cpp
-D:\C++\CPP\CPP\CPPbasics\Lesson6\HW6\HomeWork6\HomeWork6\HomeWork6.cpp(22,18): warning C4244: =: преобразование "double" в "int", возможна потеря данных
-D:\C++\CPP\CPP\CPPbasics\Lesson6\HW6\HomeWork6\HomeWork6\HomeWork6.cpp(55,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-  HomeWork6.vcxproj -> D:\C++\CPP\CPP\CPPbasics\Lesson6\HW6\HomeWork6\Debug\HomeWork6.exe
+D:\GB\CPP\CPP\CPPbasics\Lesson6\HW6\HomeWork6\HomeWork6\HomeWork6.cpp(24,18): warning C4244: =: преобразование "double" в "int", возможна потеря данных
+D:\GB\CPP\CPP\CPPbasics\Lesson6\HW6\HomeWork6\HomeWork6\HomeWork6.cpp(57,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+  HomeWork6.vcxproj -> D:\GB\CPP\CPP\CPPbasics\Lesson6\HW6\HomeWork6\Debug\HomeWork6.exe

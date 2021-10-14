@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ctime>
-
+#include <string>
+#include <fstream>
 using namespace std;
 
 //=============================================================================
@@ -85,10 +86,102 @@ void task2()
 
 
 
+//=============================================================================
+// Task 3 и 4
+//=============================================================================
+void task3_4()
+{
+	// Запись первого файла
+	cout << "Enter fitst file name in txt format: ";
+	string fileName1;
+	cin >> fileName1;
+	ofstream fout1(fileName1);
+	fout1 << "Childe Harold was he hight but whence his name And lineage long, it suits me not to say Suffice it.";
+	fout1.close();
+	//=========================================================================
+
+	// Запись второго файла
+	cout << "Enter second file name in txt format: ";
+	string fileName2;
+	cin >> fileName2;
+	ofstream fout2(fileName2);
+	fout2 << "But one sad losel soils a name for aye,However mighty in the olden timeNor florid prose, nor honeyed lines of rhyme,Can blazon evil deeds, or consecrate a crime.";
+	fout2.close();
+	//=========================================================================
+
+	string buf3;
+	cout << "Enter a third name for the merge file: ";
+	string fileName3;
+	cin >> fileName3;
+	
+
+	// Чтение 1го файла
+	ifstream fin(fileName1);
+	if (fin.is_open())
+	{
+	
+		while (!fin.eof())
+		{
+			getline(fin, buf3);
+		}
+		fin.close();
+	}
+    //=========================================================================
+
+	// Запись в объединяющий файл 1го файла
+	ofstream fout3(fileName3, ios::app);
+	fout3 << buf3 << " ";
+	//=========================================================================
+
+
+	// Чтение 2го файла
+	ifstream fin2(fileName2);
+	if (fin2.is_open())
+	{
+		
+		while (!fin2.eof())
+		{
+			getline(fin2, buf3);
+		}
+		fin2.close();
+	}
+    //==========================================================================
+	
+
+	// Запись в объединяющий файл 2го файла
+	ofstream fout4(fileName3, ios::app);
+	fout3 << buf3;
+	fout3.close();
+	//==========================================================================
+
+
+	// Чтение объединенного файла с выводом в консоль
+	ifstream fin3(fileName3);
+	if (fin3.is_open())
+	{
+
+		while (!fin3.eof())
+		{
+			getline(fin3, buf3);
+			cout << buf3;
+		}
+		fin3.close();
+	}
+
+}
+
+
+void task5()
+{
+	
+}
+
 
 int main()
 {
 	//task1();
-	task2();
+	//task2();
+	task3_4();
+	
 	return 0;
 }
