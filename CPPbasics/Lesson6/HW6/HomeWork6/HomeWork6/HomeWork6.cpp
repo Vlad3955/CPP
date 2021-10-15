@@ -91,7 +91,7 @@ void task2()
 //=============================================================================
 void task3_4()
 {
-	// Запись первого файла
+	// Запись первого файла.Пример имени файла: test.txt
 	cout << "Enter fitst file name in txt format: ";
 	string fileName1;
 	cin >> fileName1;
@@ -100,7 +100,7 @@ void task3_4()
 	fout1.close();
 	//=========================================================================
 
-	// Запись второго файла
+	// Запись второго файла.Пример имени файла: test.txt
 	cout << "Enter second file name in txt format: ";
 	string fileName2;
 	cin >> fileName2;
@@ -109,6 +109,8 @@ void task3_4()
 	fout2.close();
 	//=========================================================================
 
+
+	//Ввод имени объединяющего файла.Пример имени файла: test.txt
 	string buf3;
 	cout << "Enter a third name for the merge file: ";
 	string fileName3;
@@ -159,7 +161,6 @@ void task3_4()
 	ifstream fin3(fileName3);
 	if (fin3.is_open())
 	{
-
 		while (!fin3.eof())
 		{
 			getline(fin3, buf3);
@@ -173,7 +174,38 @@ void task3_4()
 
 void task5()
 {
-	
+	// Вводим имя файла,например: m.txt
+	cout << "Enter file name in txt format : ";
+	string fName;
+	cin >> fName;
+	string buf;
+
+
+	// Читаем файл,так же вписал cout содержимого
+	ifstream fin(fName);
+	if (fin.is_open())
+	{
+		while (!fin.eof())
+		{
+			getline(fin, buf);
+			cout << buf;
+		}
+		fin.close();
+	}
+
+	cout << "Enter word for search: ";
+	string sWord;
+	cin >> sWord;
+
+	// Ищем слово
+	if (buf.find(sWord) != string::npos)
+	{
+		cout << "We found: " << sWord << endl;
+	}
+	else
+	{
+		cout << "We can not find: " << sWord << endl;
+	}
 }
 
 
@@ -181,7 +213,8 @@ int main()
 {
 	//task1();
 	//task2();
-	task3_4();
+	//task3_4();
+	task5();
 	
 	return 0;
 }
