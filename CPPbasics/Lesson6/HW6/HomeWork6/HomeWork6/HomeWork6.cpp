@@ -43,31 +43,31 @@ void task1()
 void task2()
 {
 	int** pMyArr2;
-	const int sizeA = 4;
-	const int sizeB = 4;
+	const int rows = 4;
+	const int cols = 4;
 	// объявление массива указвтелей и массива int
-	pMyArr2 = new int *[sizeA];
+	pMyArr2 = new int *[rows];
 
-	for (int i = 0; i < sizeA; i++)
+	for (int i = 0; i < rows; i++)
 	{
-		pMyArr2[i] = new int[sizeB];
+		pMyArr2[i] = new int[cols];
 	}
 
 	// заполнение массива
 	srand(time(0));
 
-	for (int i = 0; i < sizeA; i++)
+	for (int i = 0; i < rows; i++)
 	{
-		for (int k = 0; k < sizeB; k++)
+		for (int k = 0; k < cols; k++)
 		{
 			pMyArr2[i][k] = rand() % 100;
 		}
 	}
 
 	// вывод массива
-	for (int i = 0; i < sizeA; i++)
+	for (int i = 0; i < rows; i++)
 	{
-		for (int k = 0; k < sizeB; k++)
+		for (int k = 0; k < cols; k++)
 		{
 			cout << pMyArr2[i][k] << " ";
 		}
@@ -75,7 +75,7 @@ void task2()
 	}
 
 	// delete
-	for (int i = 0; i < sizeA; i++)
+	for (int i = 0; i < rows; i++)
 	{
 		delete[] pMyArr2[i];
 	}
@@ -212,9 +212,9 @@ void task5()
 int main()
 {
 	//task1();
-	//task2();
+	task2();
 	//task3_4();
-	task5();
+	//task5();
 	
 	return 0;
 }
