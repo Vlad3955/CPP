@@ -14,8 +14,8 @@ int main()
 	// Task 1 & 5
 	//=========================
 
-	const int size = 10;
-	double arr1[size];
+	//const int size = 10;
+	//double arr1[size];
 	//initArr(arr1, size);
 	//showArr(arr1, size);
 	//countElement(arr1, size);
@@ -48,6 +48,8 @@ int main()
 
 	cout << endl;
 
+	
+
 	for (int i = 0; i < ARRAY_SIZE; i++)
 	{
 		cout << arr2[i] << endl;
@@ -55,13 +57,13 @@ int main()
 
 	cout << endl;
 
-	cout << "Bubble sort\n\n";
+	cout << "Bubble sort in ascending(по возрастанию)\n\n";
 
 	for (int i = 0; i < ARRAY_SIZE - 1; i++)
 	{
 		for (int j = (ARRAY_SIZE - 1); j > i; j--)
 		{
-			if (arr2[j - 1] > arr2[j])
+			if (arr2[j - 1] > arr2[j])// сменив знак > на < получаем по убыванию 
 			{
 				int temp = arr2[j - 1];
 				arr2[j - 1] = arr2[j];
@@ -78,6 +80,28 @@ int main()
 	}
 
 	cout << endl;
+
+	cout << "Bubble sort in descending(по убыванию)\n\n";
+
+	for (int i = 0; i < ARRAY_SIZE - 1; i++)
+	{
+		for (int j = 0; j < ARRAY_SIZE - 1; j++)
+		{
+			if (arr2[j] < arr2[j + 1])// сменив знак < на > получаем по возрастанию
+			{
+				int temp = arr2[j];
+				arr2[j] = arr2[j + 1];
+				arr2[j + 1] = temp;
+			}
+		}
+	}
+
+	cout << endl;
+
+	for (int i = 0; i < ARRAY_SIZE; i++)
+	{
+		cout << arr2[i] << endl;
+	}
 
 	return 0;
 }
