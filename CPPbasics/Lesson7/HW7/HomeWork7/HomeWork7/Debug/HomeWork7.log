@@ -1,2 +1,5 @@
 ﻿  main.cpp
-  HomeWork7.vcxproj -> D:\GB\CPP\CPP\CPPbasics\Lesson7\HW7\HomeWork7\Debug\HomeWork7.exe
+  mylib.cpp
+D:\C++\CPP\CPP\CPPbasics\Lesson7\HW7\HomeWork7\HomeWork7\mylib.cpp(14,13): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+  Создание кода...
+  HomeWork7.vcxproj -> D:\C++\CPP\CPP\CPPbasics\Lesson7\HW7\HomeWork7\Debug\HomeWork7.exe

@@ -110,8 +110,7 @@ int main()
 		unsigned short age;
 		double salary;
 		double points;
-		string firstName;
-		string lastName;
+		string firstName, lastName;
 	};
 #pragma pack(pop)
 
