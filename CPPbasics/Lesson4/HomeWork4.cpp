@@ -140,13 +140,13 @@ int main()
 {
 	setlocale(LC_ALL, "Russian");
 
-	int num = 121;
+	int num = 199;
 
 	//task1();
 	//task2();
 	//task3();
-	//task4(num);
-	task5();
+	task4(num);
+	//task5();
 	
 
 	return 0;
