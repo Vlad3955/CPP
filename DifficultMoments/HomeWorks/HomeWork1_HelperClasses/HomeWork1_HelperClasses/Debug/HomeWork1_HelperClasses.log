@@ -1,0 +1,5 @@
+﻿  CodeHW1.cpp
+  HelperClassesHW1_main.cpp
+  Создание кода...
+D:\GB\CPP\CPP\DifficultMoments\HomeWorks\HomeWork1_HelperClasses\HomeWork1_HelperClasses\CodeHW1.cpp(114): warning C4715: PhoneBook::GetPhoneNumber: значение возвращается не при всех путях выполнения
+  HomeWork1_HelperClasses.vcxproj -> D:\GB\CPP\CPP\DifficultMoments\HomeWorks\HomeWork1_HelperClasses\Debug\HomeWork1_HelperClasses.exe
