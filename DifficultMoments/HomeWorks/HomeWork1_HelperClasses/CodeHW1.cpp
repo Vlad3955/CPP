@@ -46,6 +46,7 @@ PhoneBook::PhoneBook()
 {
 }
 
+
 PhoneBook::PhoneBook(ifstream& fin)
 {
 	if (!fin)
