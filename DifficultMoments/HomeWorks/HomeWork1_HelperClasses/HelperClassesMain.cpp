@@ -1,9 +1,9 @@
-#include <iostream>
-#include "HeaderHW1.h"
+п»ї#include "HelperClassesHeader.h"
 
 int main()
 {
-	ifstream file("PhoneBook.txt"); // путь к файлу PhoneBook.txt
+	setlocale(LC_ALL, "ru");
+	ifstream file("PhoneBook2.txt"); // ГЇГіГІГј ГЄ ГґГ Г©Г«Гі PhoneBook.txt
 	PhoneBook book(file);
 	cout << book;
 
@@ -26,12 +26,12 @@ int main()
 		cout << endl;
 	};
 
-	print_phone_number("Solovev");
+	print_phone_number("Titova");
 	print_phone_number("Petrov");
 
 	cout << "----ChangePhoneNumber----" << endl;
 	book.ChangePhoneNumber(Person{ "Markelov", "Dmitrii", "Vadimovich" },
-		PhoneNumber{ 7, 123, "15344458", 11 });
+		PhoneNumber{ 7, 123, "15344458", nullopt});
 	book.ChangePhoneNumber(Person{ "Mironova", "Margarita", "Vladimirovna" },
 		PhoneNumber{ 16, 465, "9155448", 13 });
 	cout << book;

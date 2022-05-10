@@ -1,4 +1,4 @@
-Solovev Ivan Vladimirovich 7 273 5699819 5543
+Solovev Vadim 7 273 5699819 5543
 Egorov Savelii Stanislavovich 77 4521 8880876 99
 Davydov Filipp Grigorevich 7 247 1377660 79
 Morozov Vladimir Mikhailovich 37 2290 5613649 34
@@ -7,3 +7,4 @@ Markelov Dmitrii Vadimovich 19 7576 5734416 2
 Kozlovskii Artem Daniilovich 81 8281 7420182 1
 Kuznetsov Kirill Kirillovich 7 17 8346563 5
 Mironova Margarita Aleksandrovna 7 273 5699819 5542
+
