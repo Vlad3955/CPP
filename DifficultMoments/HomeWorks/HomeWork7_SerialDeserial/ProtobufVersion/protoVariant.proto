@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package protoVariant;
+
+message FullName {
+	string name = 1;
+	string surname = 2;
+	optional string patronymic = 3;
+}
+
+message Student {
+	FullName name = 1;
+	repeated uint32 grades = 2;
+	uint32 average = 3;
+}
+
+message StudentsGroup {
+	repeated Student students = 1;
+}
