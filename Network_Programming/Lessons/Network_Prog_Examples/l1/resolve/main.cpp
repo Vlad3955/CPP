@@ -136,16 +136,19 @@ int print_ips_with_gethostbyname(const std::string &host_name)
 }
 
 
-int main(int argc, const char *argv[])
+//int main(int argc, const char *argv[])
+int main()
 {
 
-    if (argc != 2)
+    /*if (argc != 2)
     {
         std::cout << "Usage: " << argv[0] << " <hostname>" << std::endl;
         return EXIT_FAILURE;
-    }
+    }*/
 
-    const std::string host_name = { argv[1] };
+
+    //const std::string host_name = { argv[1] };
+    const std::string host_name = { "ya.ru"};
 
     print_ips_with_getaddrinfo(host_name);
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
