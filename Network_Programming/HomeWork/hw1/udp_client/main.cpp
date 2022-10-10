@@ -31,7 +31,7 @@ int main(int argc, char const* argv[])
     memset((char*)&server, 0, sizeof(server));
     server.sin_family = AF_INET;
     server.sin_port = htons(port);
-    server.sin_addr.S_un.S_addr = inet_addr(SERVER);
+    server.sin_addr.s_addr = inet_addr(SERVER);
 
     while (true)
     {
@@ -98,7 +98,7 @@ int main(int argc, char const* argv[])
         // try to receive some data, this is a blocking call
         int slen = sizeof(sockaddr_in);
         int answer_length;
-        answer_length = recvfrom(sock, answer, BUFLEN, 0, (sockaddr*)&server, &slen);
+        //answer_length = recvfrom(sock, answer, BUFLEN, 0, (sockaddr*)&server, &slen);
         if (answer_length > 0)
         {
             std::cout << answer << "\n";

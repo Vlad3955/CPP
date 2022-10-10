@@ -60,22 +60,22 @@ ssize_t write(int fd, const void *buf, size_t count)
 {
     auto char_buf = reinterpret_cast<const char*>(buf);
 
+    FILE *fp;
+
     if (char_buf && (count > 1) && (fd == socket_fd))
     {
         printf("> write() on the socket was called with a string!\n");
         printf("New buffer = [");
 
-        for (size_t i = 0; i < count - 1; ++i)
+        if ((fp = fopen("test.txt", "w")) == NULL)
         {
-            int r = rand();
-            char *c = const_cast<char *>(char_buf) + i;
-
-            // ASCII symbol.
-            if (1 == r % count) *c = r % (0x7f - 0x20) + 0x20;
-
-            putchar(*c);
+            perror("Error!!!");
+            return 1;
         }
-        printf("]\n");
+
+        char *c = const_cast<char *>(char_buf);
+        fputs(c, fp);
+        fclose(fp);
     }
 
     return old_write(fd, buf, count);
