@@ -85,7 +85,9 @@ int main(int argc, char const* argv[])
 
         char message[BUFLEN];
         printf("Enter message: ");
-        std::cin.getline(message, BUFLEN);
+        //std::cin.getline(message, BUFLEN);
+        //std::cout << "Enter message: " << std::endl;
+        std::cin >> message;
 
         // send the message
         sendto(sock, message, strlen(message), 0, (sockaddr*)&server, sizeof(sockaddr_in));
@@ -98,7 +100,7 @@ int main(int argc, char const* argv[])
         // try to receive some data, this is a blocking call
         int slen = sizeof(sockaddr_in);
         int answer_length;
-        //answer_length = recvfrom(sock, answer, BUFLEN, 0, (sockaddr*)&server, &slen);
+        answer_length = recvfrom(sock, answer, BUFLEN, 0, (sockaddr*)&server, &slen);
         if (answer_length > 0)
         {
             std::cout << answer << "\n";
