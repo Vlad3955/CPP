@@ -2,14 +2,14 @@
 
 
 
-
 socket_wrapper::Socket connect_to_client(const std::string& host_name, unsigned short port)
+//socket_wrapper::Socket connect_to_client(unsigned short port)
 {
     socket_wrapper::SocketWrapper sock_wrap_;
 
     sockaddr_storage clients_addr = { 0 };
     socklen_t clients_addr_size;
-    
+
 
     addrinfo hints =
     {
@@ -49,32 +49,38 @@ socket_wrapper::Socket connect_to_client(const std::string& host_name, unsigned 
                 sockaddr_in* const sin = reinterpret_cast<sockaddr_in* const>(s->ai_addr);
                 in_addr addr;
                 addr.s_addr = *reinterpret_cast<const in_addr_t*>(&sin->sin_addr);
-
+                
                 sin->sin_family = AF_INET;
                 sin->sin_port = htons(port);
 
-                
+
                 socket_wrapper::Socket s = { AF_INET, SOCK_STREAM, IPPROTO_TCP };
 
-                if (bind(s, reinterpret_cast<const sockaddr*>(sin), sizeof(sockaddr_in)))
+                if ((bind(s, reinterpret_cast<const sockaddr*>(sin), sizeof(sockaddr_in))) != 0)
                 {
-                    if ((listen(s, 10)) == -1)
-                    {
-                        std::cerr << "sever: listen\n";
-                        exit(EXIT_FAILURE);
-                    }
-
-                    std::cout << "Trying IP Address: " << inet_ntop(AF_INET, &addr, ip, INET_ADDRSTRLEN) << std::endl;
-                    clients_addr_size = sizeof(clients_addr);
-                    socket_wrapper::Socket newSock = accept(s, reinterpret_cast<sockaddr*>(&clients_addr), &clients_addr_size);
-                    if (!newSock)
-                    {
-                        std::cerr << sock_wrap_.get_last_error_string() << std::endl;
-                        std::cout << "Bind AF_INET error";
-                        exit(EXIT_FAILURE);
-                    }
-                    return newSock;
+                    std::cerr << sock_wrap_.get_last_error_string() << std::endl;
+                    std::cerr << "bind error" << std::endl;
+                    exit(EXIT_FAILURE);
                 }
+
+                if ((listen(s, 10)) == -1)
+                {
+                    std::cerr << "sever: listen\n";
+                    exit(EXIT_FAILURE);
+                }
+
+                std::cout << "Trying IP Address: " << inet_ntop(AF_INET, &addr, ip, INET_ADDRSTRLEN) << std::endl;
+                clients_addr_size = sizeof(clients_addr);
+
+                socket_wrapper::Socket newSock = accept(s, reinterpret_cast<sockaddr*>(&clients_addr), &clients_addr_size);
+                if (!newSock)
+                {
+                    std::cerr << sock_wrap_.get_last_error_string() << std::endl;
+                    std::cout << "accept error";
+                    exit(EXIT_FAILURE);
+                }
+                s.close();
+                return newSock;
             }
             else if (AF_INET6 == s->ai_family)
             {
@@ -85,33 +91,37 @@ socket_wrapper::Socket connect_to_client(const std::string& host_name, unsigned 
                 sin->sin6_family = AF_INET6;
                 sin->sin6_port = htons(port);
 
-                
+
                 socket_wrapper::Socket s = { AF_INET6, SOCK_STREAM, IPPROTO_TCP };
 
-                if (bind(s, reinterpret_cast<const sockaddr*>(sin), sizeof(sockaddr_in6)))
+                if ((bind(s, reinterpret_cast<const sockaddr*>(sin), sizeof(sockaddr_in6))) != 0)
                 {
-                    if ((listen(s, 10)) == -1)
-                    {
-                        std::cerr << "sever: listen\n";
-                        exit(EXIT_FAILURE);
-                    }
-
-                    std::cout << "Trying IPv6 Address: " << inet_ntop(AF_INET6, &(sin->sin6_addr), ip6, INET6_ADDRSTRLEN) << std::endl;
-                    clients_addr_size = sizeof(clients_addr);
-                    socket_wrapper::Socket newSock = accept(s, reinterpret_cast<sockaddr*>(&clients_addr), &clients_addr_size);
-                    if (!newSock)
-                    {
-                        std::cerr << sock_wrap_.get_last_error_string() << std::endl;
-                        std::cout << "Bind AF_INET6 error";
-                        exit(EXIT_FAILURE);
-                    }
-                    return newSock;
+                    std::cerr << sock_wrap_.get_last_error_string() << std::endl;
+                    std::cerr << "bind error" << std::endl;
+                    exit(EXIT_FAILURE);
                 }
+
+                if ((listen(s, 10)) == -1)
+                {
+                    std::cerr << "sever: listen\n";
+                    exit(EXIT_FAILURE);
+                }
+
+                std::cout << "Trying IPv6 Address: " << inet_ntop(AF_INET6, &(sin->sin6_addr), ip6, INET6_ADDRSTRLEN) << std::endl;
+                clients_addr_size = sizeof(clients_addr);
+
+                socket_wrapper::Socket newSock = accept(s, reinterpret_cast<sockaddr*>(&clients_addr), &clients_addr_size);
+                if (!newSock)
+                {
+                    std::cerr << sock_wrap_.get_last_error_string() << std::endl;
+                    std::cout << "accept error";
+                    exit(EXIT_FAILURE);
+                }
+                s.close();
+                return newSock;
             }
         }  // for
-    }
-    
-    //throw std::runtime_error("Connection error: " + sock_wrap_.get_last_error_string());
+    }  // while
 }
 
 
@@ -130,47 +140,32 @@ int main(int argc, char const* argv[])
     //const int port{ std::stoi("15234")};
     socket_wrapper::SocketWrapper sock_wrap;
     int recv_len;
-   
-    
+
+
     std::cout << "Starting TCP-server on the port " << port << "...\n";
 
-    
+    socket_wrapper::Socket sock = connect_to_client("192.168.4.73", port);
+    //socket_wrapper::Socket sock = connect_to_client(port);
 
-    
 
-    socket_wrapper::Socket sock = connect_to_client("192.168.100.13", port);
-    
     char buffer[256] = {};
-    //char s[INET6_ADDRSTRLEN];
 
     while (true)
     {
-       
-
-
-        /*if (recv(newSock, buffer, sizeof(buffer) - 1, 0) < 0)
-        {
-            std::cerr << sock_wrap.get_last_error_string() << std::endl;
-            return EXIT_FAILURE;
-        }
-        std::cout << buffer << std::endl;*/
-
         recv_len = recv(sock, buffer, sizeof(buffer) - 1, 0);
         buffer[recv_len] = '\0';
         if (recv_len > 0)
         {
-         std::cout << "Bytes received: \n" << recv_len << std::endl;
-         std::cout << buffer << std::endl;      
+            std::cout << "Bytes received: \n" << recv_len << std::endl;
+            std::cout << buffer << std::endl;
         }
-        
-        send(sock, buffer, recv_len, 0);
-       
-    }
 
+        send(sock, buffer, recv_len, 0);
+
+    }
 
     return EXIT_SUCCESS;
 }
-
 
 
 
