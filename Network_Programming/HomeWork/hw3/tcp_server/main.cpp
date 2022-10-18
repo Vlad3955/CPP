@@ -19,7 +19,7 @@ socket_wrapper::Socket connect_to_client(const std::string& host_name, unsigned 
         // TCP stream-sockets.
         .ai_socktype = SOCK_STREAM,
         // Any protocol.
-        .ai_protocol = 0
+        .ai_protocol = IPPROTO_TCP
     };
 
     addrinfo* s_i = nullptr;
