@@ -20,16 +20,16 @@ static inline std::string& rtrim(std::string& s)
 }
 
 
-//class UDPServer
+//class TCPserver
 //{
 //public:
-//	UDPServer();
-//    void listenUDP(socket_wrapper::Socket& sock);
-//	~UDPServer();
+//	TCPserver();
+//	~TCPserver();
+//
 //private:
-//    struct sockaddr_in client_address;
-//    socklen_t client_address_len;
-//    ssize_t recv_len;
+//
 //};
+
+
 
 
