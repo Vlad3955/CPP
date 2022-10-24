@@ -177,7 +177,7 @@ socket_wrapper::Socket connect_to_client(unsigned short port)
 
     sockaddr_storage clients_addr = { 0 };
     socklen_t clients_addr_size;
-
+    const int flag = 1;
 
     addrinfo hints =
     {
@@ -222,6 +222,13 @@ socket_wrapper::Socket connect_to_client(unsigned short port)
 
                 socket_wrapper::Socket s = { AF_INET, SOCK_STREAM, IPPROTO_TCP };
 
+                // Allow reuse of port.
+                if (setsockopt(s, SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<const char*>(&flag), sizeof(flag)) < 0)
+                {
+                    std::cout << "Set SO_REUSEADDR error" << std::endl;
+                    exit(EXIT_FAILURE);
+                }
+
                 if ((bind(s, reinterpret_cast<const sockaddr*>(sin), sizeof(sockaddr_in))) != 0)
                 {
                     std::cerr << sock_wrap_.get_last_error_string() << std::endl;
@@ -261,6 +268,13 @@ socket_wrapper::Socket connect_to_client(unsigned short port)
                
 
                 socket_wrapper::Socket s = { AF_INET6, SOCK_STREAM, IPPROTO_TCP };
+
+                // Allow reuse of port.
+                if (setsockopt(s, SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<const char*>(&flag), sizeof(flag)) < 0)
+                {
+                    std::cout << "Set SO_REUSEADDR error" << std::endl;
+                    exit(EXIT_FAILURE);
+                }
 
                 if ((bind(s, reinterpret_cast<const sockaddr*>(sin), sizeof(sockaddr_in6))) != 0)
                 {
@@ -314,9 +328,11 @@ int main(int argc, char const* argv[])
 
     socket_wrapper::Socket sock = connect_to_client(port);
 
-    char buffer[256] = {};
+    const int len = 256;
+    char buffer[len] = {};
+    bool run = true;
 
-    while (true)
+    while (run)
     {
         recv_len = recv(sock, buffer, sizeof(buffer) - 1, 0);
         buffer[recv_len] = '\0';
@@ -324,10 +340,10 @@ int main(int argc, char const* argv[])
         {
             std::cout << "Bytes received: \n" << recv_len << std::endl;
             std::cout << buffer << std::endl;
+
+            send(sock, buffer, recv_len, 0);
         }
-
-        send(sock, buffer, recv_len, 0);
-
+        std::cout << std::endl;
     }
 
     return EXIT_SUCCESS;

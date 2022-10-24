@@ -10,6 +10,7 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include <array>
 
 #include <cerrno>
 

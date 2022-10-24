@@ -6,22 +6,21 @@
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <filesystem>
 
 #include <socket_wrapper/socket_headers.h>
 #include <socket_wrapper/socket_wrapper.h>
 #include <socket_wrapper/socket_class.h>
 
 
+namespace fs = std::filesystem;
 
-//void* get_in_addr(sockaddr* sa)
-//{
-//    if (sa->sa_family == AF_INET)
-//    {
-//        return &reinterpret_cast<sockaddr_in*>(sa)->sin_addr;
-//    }
-//    return &reinterpret_cast<sockaddr_in6*>(sa)->sin6_addr;
-//}
-
+// Trim from end (in place).
+static inline std::string& rtrim(std::string& s)
+{
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](int c) { return !std::isspace(c); }).base());
+    return s;
+}
 
 
 //int main(int argc, char const* argv[])
@@ -185,6 +184,7 @@ int main(int argc, char const* argv[])
     const int port{ std::stoi(argv[1]) };
     //const int port{ std::stoi("15234")};
     socket_wrapper::SocketWrapper sock_wrap;
+    auto cur_path = fs::current_path();
 
 
     std::cout << "Starting TCP-client on the port " << port << "...\n";
@@ -192,7 +192,6 @@ int main(int argc, char const* argv[])
 
     addrinfo hints =
     {
-        .ai_flags = AI_PASSIVE,
         .ai_family = AF_UNSPEC,
         .ai_socktype = SOCK_STREAM,
         .ai_protocol = IPPROTO_TCP
@@ -220,13 +219,11 @@ int main(int argc, char const* argv[])
             char ip[INET_ADDRSTRLEN];
 
             sockaddr_in* const sin = reinterpret_cast<sockaddr_in* const>(s->ai_addr);
-            //in_addr addr;
-            //addr.s_addr = *reinterpret_cast<const in_addr_t*>(&sin->sin_addr);
-
             sin->sin_family = AF_INET;
             sin->sin_port = htons(port);
-            //sin->sin_addr = "0.0.0.0";
-            inet_pton(AF_INET, "192.168.4.73", &sin->sin_addr);
+            //sin->sin_addr.s_addr = INADDR_ANY; // not working 
+            inet_pton(AF_INET, "192.168.100.13", &sin->sin_addr);
+
             socket_wrapper::Socket s = { AF_INET, SOCK_STREAM, IPPROTO_TCP };
 
             if (!s)
@@ -273,8 +270,8 @@ int main(int argc, char const* argv[])
 
             sin->sin6_family = AF_INET6;
             sin->sin6_port = htons(port);
-            //sin->sin6_addr = in6addr_any;
-            inet_pton(AF_INET6, "fe80::ec81:f939:e554:147c%12", &sin->sin6_addr);
+            //sin->sin6_addr = in6addr_any; // not working 
+            inet_pton(AF_INET6, "fe80::d85d:b2f4:4820:2fe0%8", &sin->sin6_addr);
 
             socket_wrapper::Socket s = { AF_INET6, SOCK_STREAM, IPPROTO_TCP };
 
@@ -290,7 +287,9 @@ int main(int argc, char const* argv[])
                 return EXIT_FAILURE;
             }
 
-            while (true)
+            bool run = true;
+
+            while (run)
             {
 
                 char message[256];
@@ -301,6 +300,13 @@ int main(int argc, char const* argv[])
                 send(s, message, strlen(message), 0);
 
 
+                /*std::string command_string = { message, 0, strlen(message) };
+                rtrim(command_string);
+                if ("exit" == command_string)
+                {
+                    run = false;
+                }*/
+
                 // receive a reply and print it
                 char answer[256] = {};
 
@@ -310,7 +316,6 @@ int main(int argc, char const* argv[])
                 {
                     std::cout << answer << "\n";
                 }
-
             }
         }
     }  // for
