@@ -7,6 +7,7 @@
 #include <string>
 #include <cstring>
 #include <filesystem>
+#include <fstream>
 
 #include <socket_wrapper/socket_headers.h>
 #include <socket_wrapper/socket_wrapper.h>
@@ -289,9 +290,8 @@ static inline std::string& rtrim(std::string& s)
 //                return EXIT_FAILURE;
 //            }
 //
-//            bool run = true;
-//
-//            while (run)
+//           
+//            while (true)
 //            {
 //
 //                char message[256];
@@ -302,12 +302,7 @@ static inline std::string& rtrim(std::string& s)
 //                send(s, message, strlen(message), 0);
 //
 //
-//                /*std::string command_string = { message, 0, strlen(message) };
-//                rtrim(command_string);
-//                if ("exit" == command_string)
-//                {
-//                    run = false;
-//                }*/
+//                
 //
 //                // receive a reply and print it
 //                char answer[256] = {};
@@ -324,6 +319,10 @@ static inline std::string& rtrim(std::string& s)
 //
 //    return EXIT_SUCCESS;
 //}
+
+
+
+
 
 
 
@@ -402,21 +401,24 @@ int main(int argc, char const* argv[])
                 printf("Enter message: ");
                 std::cin.getline(message, 256);
 
-
                 // send the message
                 send(s, message, strlen(message), 0);
-                
 
-                // receive a reply and print it
-                char answer[256] = {};
 
-                int answer_length;
-                answer_length = recv(s, answer, strlen(answer), 0);
-                if (answer_length > 0)
+                std::vector<char> buffer(256);
+                recv(s, &(buffer.data()[0]), buffer.size(), 0);
+
+                if (!buffer.empty())
                 {
-                    std::cout << answer << "\n";
-                }
+                    std::fstream file;
+                    file.open(message, std::ios_base::out | std::ios_base::binary);
 
+                    if (file.is_open())
+                    {
+                        std::cout << "File open";
+                        file.write(&buffer[0], buffer.size());
+                    }
+                }
             }
 
         }
@@ -445,9 +447,9 @@ int main(int argc, char const* argv[])
                 return EXIT_FAILURE;
             }
 
-            bool run = true;
+            
 
-            while (run)
+            while (true)
             {
 
                 char message[256];
@@ -456,23 +458,26 @@ int main(int argc, char const* argv[])
 
                 // send the message
                 send(s, message, strlen(message), 0);
-                
 
-                /*std::string command_string = { message, 0, strlen(message) };
-                rtrim(command_string);
-                if ("exit" == command_string)
+
+                std::vector<char> buffer(256);
+                recv(s, &(buffer.data()[0]), buffer.size(), 0);
+
+                if (!buffer.empty())
                 {
-                    run = false;
-                }*/
+                    std::fstream file;
+                    file.open(message, std::ios_base::out | std::ios_base::binary);
 
-                // receive a reply and print it
-                char answer[256] = {};
-
-                int answer_length;
-                answer_length = recv(s, answer, strlen(message), 0);
-                if (answer_length > 0)
-                {
-                    std::cout << answer << "\n";
+                    if (file.is_open())
+                    {
+                        std::cout << "Received file!" << std::endl;
+                        for (auto& b : buffer)
+                        {
+                            std::cout << b;
+                        }
+                        std::cout << std::endl;
+                        file.write(&buffer[0], buffer.size());
+                    }
                 }
             }
         }

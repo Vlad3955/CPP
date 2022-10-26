@@ -371,30 +371,15 @@ int main(int argc, char const* argv[])
     const int port{ std::stoi(argv[1]) };
     //const int port{ std::stoi("15234")};
     socket_wrapper::SocketWrapper sock_wrap;
-    int recv_len;
-    TCPserver tcpserver;
+    Connecter connecter;
 
     std::cout << "Starting TCP-server on the port " << port << "...\n";
 
-    socket_wrapper::Socket sock = tcpserver.connect_to_client(port);
+    socket_wrapper::Socket sock = connecter.connect_to_client(port);
 
-    const int len = 256;
-    char buffer[len] = {};
-    bool run = true;
-
-    while (run)
-    {
-        recv_len = recv(sock, buffer, sizeof(buffer) - 1, 0);
-        buffer[recv_len] = '\0';
-        if (recv_len > 0)
-        {
-            std::cout << "Bytes received: \n" << recv_len << std::endl;
-            std::cout << buffer << std::endl;
-
-            send(sock, buffer, recv_len, 0);
-        }
-        std::cout << std::endl;
-    }
+    TCPserver tcpserver(std::move(sock));
+    tcpserver.server_run();
+    
 
     return EXIT_SUCCESS;
 }

@@ -11,6 +11,7 @@
 #include <array>
 #include <optional>
 #include <filesystem>
+#include <thread>
 
 #include <socket_wrapper/socket_headers.h>
 #include <socket_wrapper/socket_wrapper.h>
@@ -19,7 +20,7 @@
 
 
 
-const auto clients_count = 10;
+//const auto clients_count = 10;
 const auto buffer_size = 4096;
 using namespace std::literals;
 namespace fs = std::filesystem;
@@ -39,17 +40,30 @@ static inline std::string& rtrim(std::string& s)
 }
 
 
+class Connecter
+{
+public:
+    Connecter();
+    socket_wrapper::Socket connect_to_client(unsigned short port);
+    ~Connecter();
+private:
+
+};
+
+
 class TCPserver
 {
 public:
-	TCPserver();
-	socket_wrapper::Socket connect_to_client(unsigned short port);
-    bool send_buffer(const std::vector<char>& buffer);
-    bool send_file(fs::path const& file_path);
+    TCPserver(socket_wrapper::Socket&& client_sock);
+    TCPserver(const TCPserver&) = delete;
+    TCPserver() = delete;
     std::string get_request();
+    void server_run();
+    bool send_file(fs::path const& file_path);
+    bool send_buffer(const std::vector<char>& buffer);
     std::optional<fs::path> recv_file_path();
     bool process();
-	~TCPserver();
+    ~TCPserver();
 private:
     static bool need_to_repeat()
     {
@@ -63,7 +77,15 @@ private:
 
         return false;
     };
+private:
+    socket_wrapper::Socket client_sock_;
 };
+
+
+
+
+
+
 
 
 

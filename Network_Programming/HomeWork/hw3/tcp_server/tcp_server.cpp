@@ -4,45 +4,14 @@
 #   define MAX_PATH (256)
 #endif
 
-TCPserver::TCPserver() {}
 
-bool TCPserver::send_buffer(const std::vector<char>& buffer)
-{
-    size_t transmit_bytes_count = 0;
-    const auto size = buffer.size();
 
-    while (transmit_bytes_count != size)
-    {
-        auto result = send(client_sock_, &(buffer.data()[0]) + transmit_bytes_count, size - transmit_bytes_count, 0);
-        if (-1 == result)
-        {
-            if (need_to_repeat()) continue;
-            return false;
-        }
+// TCPserver
+//==================================================================================
+//==================================================================================
 
-        transmit_bytes_count += result;
-    }
 
-    return true;
-}
-
-bool TCPserver::send_file(fs::path const& file_path)
-{
-    if (!(fs::exists(file_path) && fs::is_regular_file(file_path))) return false;
-    std::vector<char> buffer(buffer_size);
-    std::ifstream file_stream(file_path, std::ifstream::binary);
-
-    if (!file_stream) return false;
-
-    std::cout << "Sending file " << file_path << "..." << std::endl;
-    while (file_stream)
-    {
-        file_stream.read(&buffer[0], buffer.size());
-        if (!send_buffer(buffer)) return false;
-    }
-
-    return true;
-}
+TCPserver::TCPserver(socket_wrapper::Socket&& client_sock) : client_sock_(std::move(client_sock)) {}
 
 std::string TCPserver::get_request()
 {
@@ -84,6 +53,70 @@ std::string TCPserver::get_request()
     return result;
 }
 
+bool TCPserver::send_buffer(const std::vector<char>& buffer)
+{
+    size_t transmit_bytes_count = 0;
+    const auto size = buffer.size();
+
+    while (transmit_bytes_count != size)
+    {
+        auto result = send(client_sock_, &(buffer.data()[0]) + transmit_bytes_count, size - transmit_bytes_count, 0);
+        if (-1 == result)
+        {
+            if (need_to_repeat()) continue;
+            return false;
+        }
+
+        transmit_bytes_count += result;
+    }
+
+    return true;
+}
+
+bool TCPserver::send_file(fs::path const& file_path)
+{
+    if (!(fs::exists(file_path) && fs::is_regular_file(file_path))) return false;
+
+    std::vector<char> buffer(buffer_size);
+    std::ifstream file_stream(file_path, std::ifstream::binary);
+
+    if (!file_stream) return false;
+
+    std::cout << "Sending file " << file_path << "..." << std::endl;
+    while (file_stream)
+    {
+        file_stream.read(&buffer[0], buffer.size());
+        if (!send_buffer(buffer)) return false;
+    }
+
+    return true;
+}
+
+void TCPserver::server_run()
+{
+    const int len = 256;
+    char buffer[len] = {};
+    bool run = true;
+    int recv_len;
+
+    while (run)
+    {
+        /*recv_len = recv(client_sock_, buffer, sizeof(buffer) - 1, 0);
+        buffer[recv_len] = '\0';
+        if (recv_len > 0)
+        {
+            std::cout << "Bytes received: \n" << recv_len << std::endl;
+            std::cout << buffer << std::endl;
+
+            send(client_sock_, buffer, recv_len, 0);
+        }
+        std::cout << std::endl;*/
+        std::cout << "Client tid = " << std::this_thread::get_id() << std::endl;
+        
+        process();
+    }
+}
+
 std::optional<fs::path> TCPserver::recv_file_path()
 {
     auto request_data = get_request();
@@ -108,12 +141,7 @@ std::optional<fs::path> TCPserver::recv_file_path()
     return fs::weakly_canonical(cur_path + separ + file_path);
 }
 
-//bool send_file(const fs::path& file_path)
-//{
-//    if (!(fs::exists(file_path) && fs::is_regular_file(file_path))) return false;
-//
-//    return tsr_.send_file(file_path);
-//}
+
 
 bool TCPserver::process()
 {
@@ -137,9 +165,19 @@ bool TCPserver::process()
     return result;
 }
 
+TCPserver::~TCPserver() {}
 
 
-socket_wrapper::Socket TCPserver::connect_to_client(unsigned short port)
+
+
+
+// Connector
+//==================================================================================
+//==================================================================================
+
+Connecter::Connecter() {}
+
+socket_wrapper::Socket Connecter::connect_to_client(unsigned short port)
 {
     socket_wrapper::SocketWrapper sock_wrap_;
 
@@ -274,7 +312,4 @@ socket_wrapper::Socket TCPserver::connect_to_client(unsigned short port)
     }  // while
 }
 
-TCPserver::~TCPserver() {}
-
-
-
+Connecter::~Connecter() {}
