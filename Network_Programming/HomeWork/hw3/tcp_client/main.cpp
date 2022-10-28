@@ -378,7 +378,7 @@ int main(int argc, char const* argv[])
             sin->sin_family = AF_INET;
             sin->sin_port = htons(port);
             //sin->sin_addr.s_addr = INADDR_ANY; // not working 
-            inet_pton(AF_INET, "192.168.100", &sin->sin_addr);
+            inet_pton(AF_INET, "192.168", &sin->sin_addr);
 
             socket_wrapper::Socket s = { AF_INET, SOCK_STREAM, IPPROTO_TCP };
 

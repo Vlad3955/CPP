@@ -225,7 +225,7 @@ socket_wrapper::Socket Connecter::connect_to_client(unsigned short port)
                 sin->sin_family = AF_INET;
                 sin->sin_port = htons(port);
                 //sin->sin_addr.s_addr = INADDR_ANY;
-                inet_pton(AF_INET, "192.168.100", &sin->sin_addr);
+                inet_pton(AF_INET, "192.168", &sin->sin_addr);
 
                 socket_wrapper::Socket s = { AF_INET, SOCK_STREAM, IPPROTO_TCP };
 
