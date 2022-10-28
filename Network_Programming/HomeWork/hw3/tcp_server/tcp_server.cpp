@@ -270,8 +270,8 @@ socket_wrapper::Socket Connecter::connect_to_client(unsigned short port)
 
                 sin->sin6_family = AF_INET6;
                 sin->sin6_port = htons(port);
-                sin->sin6_addr = in6addr_any;
-
+                //sin->sin6_addr = in6addr_any;
+                inet_pton(AF_INET6, "fe80::d85d:b2f4:4820:2fe0%8", &sin->sin6_addr);
 
                 socket_wrapper::Socket s = { AF_INET6, SOCK_STREAM, IPPROTO_TCP };
 
