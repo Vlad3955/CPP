@@ -189,7 +189,7 @@ socket_wrapper::Socket Connecter::connect_to_client(unsigned short port)
     {
         .ai_flags = AI_PASSIVE,
         // Неважно, IPv4 или IPv6.
-        .ai_family = AF_UNSPEC,
+        .ai_family = AF_INET,
         // TCP stream-sockets.
         .ai_socktype = SOCK_STREAM,
         // Any protocol.
@@ -224,7 +224,8 @@ socket_wrapper::Socket Connecter::connect_to_client(unsigned short port)
 
                 sin->sin_family = AF_INET;
                 sin->sin_port = htons(port);
-                sin->sin_addr.s_addr = INADDR_ANY;
+                //sin->sin_addr.s_addr = INADDR_ANY;
+                inet_pton(AF_INET, "192.168.100.1", &sin->sin_addr);
 
                 socket_wrapper::Socket s = { AF_INET, SOCK_STREAM, IPPROTO_TCP };
 
@@ -270,8 +271,8 @@ socket_wrapper::Socket Connecter::connect_to_client(unsigned short port)
 
                 sin->sin6_family = AF_INET6;
                 sin->sin6_port = htons(port);
-                //sin->sin6_addr = in6addr_any;
-                inet_pton(AF_INET6, "fe80::1%8", &sin->sin6_addr);
+                sin->sin6_addr = in6addr_any;
+                //inet_pton(AF_INET6, "fe80::1%8", &sin->sin6_addr);
 
                 socket_wrapper::Socket s = { AF_INET6, SOCK_STREAM, IPPROTO_TCP };
 
