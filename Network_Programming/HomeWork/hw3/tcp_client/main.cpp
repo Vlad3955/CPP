@@ -431,7 +431,7 @@ int main(int argc, char const* argv[])
             sin->sin6_family = AF_INET6;
             sin->sin6_port = htons(port);
             //sin->sin6_addr = in6addr_any; // not working 
-            inet_pton(AF_INET6, "fe80::d85d:b2f4:4820:2fe0%8", &sin->sin6_addr);
+            inet_pton(AF_INET6, "fe80::1%8", &sin->sin6_addr);
 
             socket_wrapper::Socket s = { AF_INET6, SOCK_STREAM, IPPROTO_TCP };
 
