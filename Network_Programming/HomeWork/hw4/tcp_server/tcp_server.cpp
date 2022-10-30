@@ -101,16 +101,6 @@ void TCPserver::server_run()
 
     while (run)
     {
-        /*recv_len = recv(client_sock_, buffer, sizeof(buffer) - 1, 0);
-        buffer[recv_len] = '\0';
-        if (recv_len > 0)
-        {
-            std::cout << "Bytes received: \n" << recv_len << std::endl;
-            std::cout << buffer << std::endl;
-
-            send(client_sock_, buffer, recv_len, 0);
-        }
-        std::cout << std::endl;*/
         std::cout << "Client tid = " << std::this_thread::get_id() << std::endl;
         
         process();
