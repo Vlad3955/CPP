@@ -94,12 +94,7 @@ bool TCPserver::send_file(fs::path const& file_path)
 
 void TCPserver::server_run()
 {
-    const int len = 256;
-    char buffer[len] = {};
-    bool run = true;
-    int recv_len;
-
-    while (run)
+    while (true)
     {
         std::cout << "Client tid = " << std::this_thread::get_id() << std::endl;
         
@@ -159,15 +154,13 @@ TCPserver::~TCPserver() {}
 
 
 
-
-
 // Connector
 //==================================================================================
 //==================================================================================
 
-Connecter::Connecter() {}
+Connector::Connector() {}
 
-socket_wrapper::Socket Connecter::connect_to_client(unsigned short port)
+socket_wrapper::Socket Connector::connect_to_client(unsigned short port)
 {
     socket_wrapper::SocketWrapper sock_wrap_;
 
@@ -303,4 +296,4 @@ socket_wrapper::Socket Connecter::connect_to_client(unsigned short port)
     }  // while
 }
 
-Connecter::~Connecter() {}
+Connector::~Connector() {}

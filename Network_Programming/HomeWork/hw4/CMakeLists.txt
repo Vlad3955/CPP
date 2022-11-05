@@ -4,4 +4,8 @@ project(home_work_4 C CXX)
 
 add_subdirectory(tcp_client)
 add_subdirectory(tcp_server)
-add_subdirectory(asio_server)
+
+if (UNIX)
+    add_subdirectory(asio_server)
+endif()
+

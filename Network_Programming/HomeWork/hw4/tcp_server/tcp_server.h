@@ -40,12 +40,12 @@ static inline std::string& rtrim(std::string& s)
 }
 
 
-class Connecter
+class Connector
 {
 public:
-    Connecter();
+    Connector();
     socket_wrapper::Socket connect_to_client(unsigned short port);
-    ~Connecter();
+    ~Connector();
 private:
 
 };

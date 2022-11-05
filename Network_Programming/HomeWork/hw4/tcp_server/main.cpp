@@ -15,11 +15,11 @@ int main(int argc, char const* argv[])
     const int port{ std::stoi(argv[1]) };
     //const int port{ std::stoi("15234")};
     socket_wrapper::SocketWrapper sock_wrap;
-    Connecter connecter;
+    Connector connector;
 
     std::cout << "Starting TCP-server on the port " << port << "...\n";
 
-    socket_wrapper::Socket sock = connecter.connect_to_client(port);
+    socket_wrapper::Socket sock = connector.connect_to_client(port);
 
     TCPserver tcpserver(std::move(sock));
     tcpserver.server_run();
