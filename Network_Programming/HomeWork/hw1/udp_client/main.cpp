@@ -58,7 +58,7 @@ int main(int argc, char const* argv[])
         // try to receive some data, this is a blocking call
         int slen = sizeof(sockaddr_in);
         int answer_length;
-        answer_length = recvfrom(sock, answer, BUFLEN, 0, (sockaddr*)&server, &slen);
+        //answer_length = recvfrom(sock, answer, BUFLEN, 0, (sockaddr*)&server, &slen);
         if (answer_length > 0)
         {
             std::cout << answer << "\n";
