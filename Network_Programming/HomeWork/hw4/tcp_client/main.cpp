@@ -6,6 +6,7 @@
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <vector>
 #include <filesystem>
 #include <fstream>
 
@@ -14,7 +15,7 @@
 #include <socket_wrapper/socket_class.h>
 
 
-namespace fs = std::filesystem;
+
 
 // Trim from end (in place).
 static inline std::string& rtrim(std::string& s)
@@ -38,7 +39,7 @@ int main(int argc, char const* argv[])
     const int port{ std::stoi(argv[1]) };
     //const int port{ std::stoi("15234")};
     socket_wrapper::SocketWrapper sock_wrap;
-    auto cur_path = fs::current_path().wstring();
+    
 
 
     std::cout << "Starting TCP-client on the port " << port << "...\n";
@@ -103,7 +104,7 @@ int main(int argc, char const* argv[])
                 send(s, message, strlen(message), 0);
 
 
-                std::vector<char> buffer(256);
+                std::vector<char> buffer;
                 recv(s, &(buffer.data()[0]), buffer.size(), 0);
 
                 if (!buffer.empty())
