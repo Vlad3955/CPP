@@ -43,6 +43,40 @@
  private:
 
 
+    //     std::optional<fs::path> recv_file_path()
+//     {
+
+//         //auto request_data = std::string(data_);
+
+//         std::string trim_data = std::string(data_);
+//         std::string request_data = trim_right_copy(trim_data);
+
+//         if (!request_data.size()) return std::nullopt;
+
+////         auto cur_path = fs::current_path().wstring();
+////         auto file_path = fs::weakly_canonical(request_data).wstring();
+
+//         std::wstring cur_path = fs::current_path().wstring();
+//         std::wstring file_path = fs::weakly_canonical(request_data).wstring();
+
+
+//         #if defined(_WIN32)
+//         std::transform(cur_path.begin(), cur_path.end(), cur_path.begin(),
+//             [](wchar_t c) { return std::towlower(c); }
+//         );
+//         std::transform(file_path.begin(), file_path.end(), file_path.begin(),
+//             [](wchar_t c) { return std::towlower(c); }
+//         );
+//         #endif
+//         if (file_path.find(cur_path) == 0)
+//         {
+//             file_path = file_path.substr(cur_path.length());
+//         }
+
+//         return fs::weakly_canonical(cur_path + separ + file_path);
+//     }
+
+
      std::optional<fs::path> recv_file_path()
      {
 
