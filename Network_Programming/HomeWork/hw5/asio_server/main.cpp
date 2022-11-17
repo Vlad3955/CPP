@@ -12,9 +12,9 @@
 #include <string>
 #include <filesystem>
 #include <thread>
+#include <boost/algorithm/string/trim.hpp>
 
-
-
+ using namespace boost::algorithm;
  using boost::asio::ip::tcp;
  const auto buffer_size = 4096;
  namespace fs = std::filesystem;
@@ -23,7 +23,8 @@
  #if defined(_WIN32)
  const wchar_t separ = fs::path::preferred_separator;
  #else
- const wchar_t separ = *reinterpret_cast<const wchar_t*>(&fs::path::preferred_separator);
+ //const wchar_t separ = *reinterpret_cast<const wchar_t*>(&fs::path::preferred_separator);
+ const char separ = *reinterpret_cast<const wchar_t*>(&fs::path::preferred_separator);
  #endif
 
  class session
@@ -41,139 +42,114 @@
    }
 
  private:
+   std::optional<fs::path> recv_file_path()
+   {
+       std::string trim_data = std::string(data_);
+       std::string request_data = trim_right_copy(trim_data);
+
+       if (!request_data.size()) return std::nullopt;
+
+       auto cur_path = fs::current_path().u8string();
+       auto file_path = fs::weakly_canonical(request_data).u8string();
 
 
-    //     std::optional<fs::path> recv_file_path()
-//     {
+       #if defined(_WIN32)
+       std::transform(cur_path.begin(), cur_path.end(), cur_path.begin(),
+           [](wchar_t c) { return std::towlower(c); }
+       );
+       std::transform(file_path.begin(), file_path.end(), file_path.begin(),
+           [](wchar_t c) { return std::towlower(c); }
+       );
+       #endif
+       if (file_path.find(cur_path) == 0)
+       {
+           file_path = file_path.substr(cur_path.length());
+       }
 
-//         //auto request_data = std::string(data_);
-
-//         std::string trim_data = std::string(data_);
-//         std::string request_data = trim_right_copy(trim_data);
-
-//         if (!request_data.size()) return std::nullopt;
-
-////         auto cur_path = fs::current_path().wstring();
-////         auto file_path = fs::weakly_canonical(request_data).wstring();
-
-//         std::wstring cur_path = fs::current_path().wstring();
-//         std::wstring file_path = fs::weakly_canonical(request_data).wstring();
-
-
-//         #if defined(_WIN32)
-//         std::transform(cur_path.begin(), cur_path.end(), cur_path.begin(),
-//             [](wchar_t c) { return std::towlower(c); }
-//         );
-//         std::transform(file_path.begin(), file_path.end(), file_path.begin(),
-//             [](wchar_t c) { return std::towlower(c); }
-//         );
-//         #endif
-//         if (file_path.find(cur_path) == 0)
-//         {
-//             file_path = file_path.substr(cur_path.length());
-//         }
-
-//         return fs::weakly_canonical(cur_path + separ + file_path);
-//     }
+       return fs::weakly_canonical(cur_path + separ + file_path);
+   }
 
 
-     std::optional<fs::path> recv_file_path()
-     {
 
-         auto request_data = std::string(data_);
-         if (!request_data.size()) return std::nullopt;
+   bool process()
+   {
+   auto file_to_send = recv_file_path();
+   bool result = false;
 
-         auto cur_path = fs::current_path().wstring();
-         auto file_path = fs::weakly_canonical(request_data).wstring();
+   if (std::nullopt != file_to_send)
+   {
+       std::cout << "Trying to send " << *file_to_send << "..." << std::endl;
+       if (send_file(*file_to_send))
+       {
+           std::cout << "File was sent." << std::endl;
+           do_read();
+       }
+       else
+       {
+           std::cerr << "File sending error!" << std::endl;
+           do_read();
+       }
+       result = true;
+   }
 
-         #if defined(_WIN32)
-         std::transform(cur_path.begin(), cur_path.end(), cur_path.begin(),
-             [](wchar_t c) { return std::towlower(c); }
-         );
-         std::transform(file_path.begin(), file_path.end(), file_path.begin(),
-             [](wchar_t c) { return std::towlower(c); }
-         );
-         #endif
-         if (file_path.find(cur_path) == 0)
-         {
-             file_path = file_path.substr(cur_path.length());
-         }
-
-         return fs::weakly_canonical(cur_path + separ + file_path);
-     }
-
-
-     bool process()
-     {
-     auto file_to_send = recv_file_path();
-     bool result = false;
-
-     if (std::nullopt != file_to_send)
-     {
-         std::cout << "Trying to send " << *file_to_send << "..." << std::endl;
-         if (send_file(*file_to_send))
-         {
-             std::cout << "File was sent." << std::endl;
-             do_read();
-         }
-         else
-         {
-             std::cerr << "File sending error!" << std::endl;
-             do_read();
-         }
-         result = true;
-     }
-
-     return result;
-     }
+   return result;
+   }
 
 
-     bool send_buffer(const std::vector<char>& buffer)
-     {
-         const auto size = buffer.size();
+   bool send_buffer(const std::vector<char>& buffer)
+   {
+       const auto size = buffer.size();
 
-         auto self(shared_from_this());
-         boost::asio::async_write(socket_, boost::asio::buffer(buffer, size),
-             [this, self](boost::system::error_code ec, std::size_t /*length*/)
-             {
-                 if (!ec)
-                 {
-                     return true;
-                 }
-             });
-         return false;
-     }
-
-
-     bool send_file(fs::path const& file_path)
-     {
-         if (!(fs::exists(file_path) && fs::is_regular_file(file_path))) return false;
-         std::vector<char> buffer(buffer_size);
-         std::ifstream file_stream(file_path, std::ifstream::binary);
-
-         if (!file_stream) return false;
-
-         std::cout << "Sending file " << file_path << "..." << std::endl;
-         while (file_stream)
-         {
-             file_stream.read(&buffer[0], buffer.size());
-             for (auto& b : buffer)
-             {
-                 std::cout << b;
-             }           
-             if (!send_buffer(buffer)) return false;
-         }
-         return true;
-     }
+       auto self(shared_from_this());
+       boost::asio::async_write(socket_, boost::asio::buffer(buffer, size),
+           [this, self](boost::system::error_code ec, std::size_t length)
+           {
+               if (!ec)
+               {
+                   std::cout << "Its work!" << std::endl;
+                   std::cout << ec.message() << std::endl;
+                   return true;
+               }
+               else
+               {
+                   std::cout << ec.message() << std::endl;
+                   return false;
+               }
+           });
+       return true;
+   }
 
 
-    
+   bool send_file(fs::path const& file_path)
+   {
+       if (!(fs::exists(file_path) && fs::is_regular_file(file_path))) return false;
+       std::vector<char> buffer(buffer_size);
+       std::ifstream file_stream(file_path, std::ifstream::binary);
+
+       if (!file_stream) return false;
+
+       std::cout << "Sending file " << file_path << "..." << std::endl;
+       while (file_stream)
+       {
+
+
+           file_stream.read(&buffer[0], buffer.size());
+
+           if(file_stream.gcount() <= buffer.size())
+           {
+               buffer.resize(file_stream.gcount());
+           }
+
+           if (!send_buffer(buffer)) return false;
+       }
+       return true;
+   }
 
 
    void do_read()
    {
      auto self(shared_from_this());
-     std::fill_n(self->data_, max_length, 0);
+     std::fill_n(data_, max_length, 0);
      socket_.async_read_some(boost::asio::buffer(self->data_, max_length),
          [this, self](boost::system::error_code ec, std::size_t length)
          {
@@ -186,21 +162,9 @@
          });
    }
 
-//   void do_write(std::size_t length)
-//   {
-//     auto self(shared_from_this());
-//     boost::asio::async_write(socket_, boost::asio::buffer(data_, length),
-//         [this, self](boost::system::error_code ec, std::size_t /*length*/)
-//         {
-//           if (!ec)
-//           {
-//             do_read();
-//           }
-//         });
-//   }
 
    tcp::socket socket_;
-   enum { max_length = 1024 };
+   enum { max_length = 260 };
    char data_[max_length];
  };
 

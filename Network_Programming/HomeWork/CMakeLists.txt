@@ -26,7 +26,7 @@ set(LINK_SEARCH_START_STATIC ON)
 set(BUILD_SHARED_LIBS OFF)
 # set(CMAKE_EXE_LINKER_FLAGS "-static")
 
-file(GLOB lessons LIST_DIRECTORIES true "hw[1-6]")
+file(GLOB lessons LIST_DIRECTORIES true "hw[1-5]")
 add_subdirectory("socket_wrapper")
 
 foreach(lesson ${lessons})
