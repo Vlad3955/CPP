@@ -299,6 +299,47 @@ int main(int argc, char* argv[])
 
 
 
+//New
+//============================================================
+//char reply[max_length];
+    // std::vector<char> read_buffer(1024);
+    // //boost::asio::streambuf read_buffer;
+    // boost::system::error_code ec;
+    // size_t reply_length = boost::asio::read(s, boost::asio::buffer(read_buffer, read_buffer.size()), 
+    // boost::asio::transfer_all(), ec);
+    // assert(ec == boost::asio::error::eof);
+    
+    // std::cout << "Reply is: ";
+    // std::cout << reply_length << std::endl;
+    // // for(auto &buf : buffer)
+    // // {
+    // //   std::cout << buf;
+    // // }
+    // // std::cout.write(reply, reply_length);
+    // // std::cout << "\n";
+
+    // if (reply_length > 0)
+    // {
+    //     read_buffer.resize(reply_length);
+    //     std::fstream file;
+    //     file.open(request, std::ios_base::out | std::ios_base::binary);
+
+    //     if (file.is_open())
+    //     {
+    //         std::cout << "Received file!" << std::endl;
+    //         // for (auto& b : buffer)
+    //         // {
+    //         //     std::cout << b;
+    //         // }
+    //         //std::cout << std::endl;
+    //         //file.write(boost::asio::buffer_cast<const char*>(read_buffer.data()), read_buffer.size());
+    //         file.write(&read_buffer[0], read_buffer.size());
+    //     }                          
+    // }
+//============================================================
+
+
+
     char reply[max_length];
     size_t reply_length = boost::asio::read(s,
         boost::asio::buffer(reply, request_length));
