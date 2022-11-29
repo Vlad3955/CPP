@@ -10,4 +10,5 @@ endif()
 
 if (UNIX)
     add_subdirectory("openssl-socket-client")
+    add_subdirectory("openssl-socket-server")
 endif()
