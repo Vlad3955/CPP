@@ -1,11 +1,7 @@
 #include "tcp_server.h"
 
 
-extern "C"
-{
-#include <openssl/ssl.h>
-#include <openssl/err.h>
-}
+
 
 
 const auto buf_size = 256;
@@ -82,20 +78,20 @@ void log_ssl()
 int main(int argc, const char * const argv[])
 {
 
-    // if (argc != 2)
-    // {
-    //     std::cout << "Usage: " << argv[0] << " <port>" << std::endl;
-    //     return EXIT_FAILURE;
-    // }
+    if (argc != 2)
+    {
+        std::cout << "Usage: " << argv[0] << " <port>" << std::endl;
+        return EXIT_FAILURE;
+    }
 
-    // const int port{ std::stoi(argv[1]) };
-    // //const int port{ std::stoi("15234")};
-    // socket_wrapper::SocketWrapper sock_wrap;
-    // Connector connector;
+    const int port{ std::stoi(argv[1]) };
+    //const int port{ std::stoi("15234")};
+    socket_wrapper::SocketWrapper sock_wrap;
+    Connector connector;
 
-    // std::cout << "Starting TCP-server on the port " << port << "...\n";
+    std::cout << "Starting TCP-server on the port " << port << "...\n";
 
-    // socket_wrapper::Socket sock = connector.connect_to_client(port);
+    socket_wrapper::Socket sock = connector.connect_to_client(port);
 
     // TCPserver tcpserver(std::move(sock));
     // tcpserver.server_run();
@@ -107,50 +103,50 @@ int main(int argc, const char * const argv[])
 
 
 
-    if (argc != 3)
-    {
-        std::cout << "Usage: " << argv[0] << " <hostname> <port>" << std::endl;
-        return EXIT_FAILURE;
-    }
+    // if (argc != 3)
+    // {
+    //     std::cout << "Usage: " << argv[0] << " <hostname> <port>" << std::endl;
+    //     return EXIT_FAILURE;
+    // }
 
-    unsigned short port = std::stoi(argv[2]);
+    // unsigned short port = std::stoi(argv[2]);
 
-    addrinfo hints =
-    {
-        .ai_family = AF_INET,
-        .ai_socktype = SOCK_STREAM,
-        .ai_protocol = IPPROTO_TCP
-    };
+    // addrinfo hints =
+    // {
+    //     .ai_family = AF_INET,
+    //     .ai_socktype = SOCK_STREAM,
+    //     .ai_protocol = IPPROTO_TCP
+    // };
 
-    // Results.
-    addrinfo *servinfo = nullptr;
-    int status = 0;
+    // // Results.
+    // addrinfo *servinfo = nullptr;
+    // int status = 0;
 
-    if ((status = getaddrinfo(argv[1], nullptr, &hints, &servinfo)) != 0)
-    {
-        std::cerr << "getaddrinfo error: " << gai_strerror(status) << std::endl;
-        return EXIT_FAILURE;
-    }
+    // if ((status = getaddrinfo(argv[1], nullptr, &hints, &servinfo)) != 0)
+    // {
+    //     std::cerr << "getaddrinfo error: " << gai_strerror(status) << std::endl;
+    //     return EXIT_FAILURE;
+    // }
 
-    sockaddr_in sa = {*reinterpret_cast<const sockaddr_in* const>(servinfo->ai_addr)};
-    sa.sin_port = htons(port);
+    // sockaddr_in sa = {*reinterpret_cast<const sockaddr_in* const>(servinfo->ai_addr)};
+    // sa.sin_port = htons(port);
 
-    freeaddrinfo(servinfo);
+    // freeaddrinfo(servinfo);
 
-    socket_wrapper::SocketWrapper sock_wrap;
-    socket_wrapper::Socket sock(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    // socket_wrapper::SocketWrapper sock_wrap;
+    // socket_wrapper::Socket sock(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
-    if (!sock)
-    {
-        std::cerr << "Error creating socket." << std::endl;
-        return EXIT_FAILURE;
-    }
+    // if (!sock)
+    // {
+    //     std::cerr << "Error creating socket." << std::endl;
+    //     return EXIT_FAILURE;
+    // }
 
-    if (connect(sock, reinterpret_cast<const struct sockaddr *>(&sa), sizeof(sa)))
-    {
-        std::cerr << "Error connecting to server." << std::endl;
-        return -1;
-    }
+    // if (connect(sock, reinterpret_cast<const struct sockaddr *>(&sa), sizeof(sa)))
+    // {
+    //     std::cerr << "Error connecting to server." << std::endl;
+    //     return -1;
+    // }
 
 
     SSL *ssl = nullptr;
@@ -163,6 +159,20 @@ int main(int argc, const char * const argv[])
     SSL_CTX *ctx = SSL_CTX_new(meth);
     ssl = SSL_new(ctx);
 
+    // Загрузка сертификата.
+    if (SSL_CTX_use_certificate_file(ctx, "home/vlad/CPP/Pract/HomeWork/build/bin/server.pem", SSL_FILETYPE_PEM) <= 0)
+    {
+        ERR_print_errors_fp(stderr);
+        exit(EXIT_FAILURE);
+    }
+
+    // Загрузка ключа.
+    if (SSL_CTX_use_PrivateKey_file(ctx, "home/vlad/CPP/Pract/HomeWork/build/bin/key.pem", SSL_FILETYPE_PEM) <= 0 )
+    {
+        ERR_print_errors_fp(stderr);
+        exit(EXIT_FAILURE);
+    }
+
     if (!ssl)
     {
         std::cerr << "Error creating SSL." << std::endl;
@@ -172,6 +182,8 @@ int main(int argc, const char * const argv[])
 
     SSL_set_fd(ssl, sock);
 
+     
+
     int err = SSL_accept(ssl);
     if (err <= 0)
     {
@@ -179,11 +191,20 @@ int main(int argc, const char * const argv[])
         log_ssl();
         return EXIT_FAILURE;
     }
-    std::cout << "SSL connection using " << SSL_get_cipher(ssl) << std::endl;
 
-    std::string request = {"GET / HTTP/1.1\r\n\r\n"};
-    send_packet(request, ssl);
+    
+
+    std::cout << "SSL connection using " << SSL_get_cipher(ssl) << std::endl;
+    
+    
+   
+
+
     recv_packet(ssl);
+    //std::string request = {"GET / HTTP/1.1\r\n\r\n"};
+    std::string request = {"brm-brm"};
+    send_packet(request, ssl);
+    
 
     SSL_shutdown(ssl);
 

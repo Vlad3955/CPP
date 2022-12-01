@@ -19,6 +19,12 @@
 #include <socket_wrapper/socket_wrapper.h>
 #include <socket_wrapper/socket_class.h>
 
+extern "C"
+{
+#include <openssl/ssl.h>
+#include <openssl/err.h>
+}
+
 
 
 //const auto clients_count = 10;
