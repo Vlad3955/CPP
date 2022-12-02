@@ -27,9 +27,7 @@ extern "C"
 
 
 
-//const auto clients_count = 10;
 const auto buffer_size = 4096;
-//using namespace std::literals;
 namespace fs = std::filesystem;
 
 #if defined(_WIN32)
@@ -46,16 +44,6 @@ static inline std::string& rtrim(std::string& s)
     return s;
 }
 
-
-class Connector
-{
-public:
-    Connector();
-    socket_wrapper::Socket connect_to_client(unsigned short port);
-    ~Connector();
-private:
-
-};
 
 
 class TCPserver

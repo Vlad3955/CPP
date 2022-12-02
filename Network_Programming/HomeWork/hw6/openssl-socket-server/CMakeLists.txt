@@ -4,7 +4,12 @@ project(openssl-socket-server C CXX)
 
 find_package(OpenSSL REQUIRED)
 
-add_executable("${PROJECT_NAME}" "main.cpp" "tcp_server.cpp" "tcp_server.h")
+set(SRC tcp_server.cpp connector.cpp main.cpp)
+set(HEADER tcp_server.h connector.h)
+
+add_executable(openssl-socket-server ${SRC} ${HEADER})
+
+#add_executable("${PROJECT_NAME}" "main.cpp" "tcp_server.cpp" "tcp_server.h")
 target_link_libraries("${PROJECT_NAME}" pthread OpenSSL::SSL OpenSSL::Crypto)
 target_link_libraries("${PROJECT_NAME}" socket-wrapper)
 
