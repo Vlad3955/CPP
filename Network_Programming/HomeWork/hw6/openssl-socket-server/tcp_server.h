@@ -15,16 +15,11 @@
 #include <thread>
 #include <vector>
 
+#include "file_proc.h"
+
 #include <socket_wrapper/socket_headers.h>
 #include <socket_wrapper/socket_wrapper.h>
 #include <socket_wrapper/socket_class.h>
-
-extern "C"
-{
-#include <openssl/ssl.h>
-#include <openssl/err.h>
-}
-
 
 
 const auto buffer_size = 4096;
@@ -36,14 +31,12 @@ const wchar_t separ = fs::path::preferred_separator;
 const wchar_t separ = *reinterpret_cast<const wchar_t*>(&fs::path::preferred_separator);
 #endif
 
-
 // Trim from end (in place).
 static inline std::string& rtrim(std::string& s)
 {
     s.erase(std::find_if(s.rbegin(), s.rend(), [](int c) { return !std::isspace(c); }).base());
     return s;
 }
-
 
 
 class TCPserver
@@ -78,10 +71,15 @@ private:
 
 
 
-
-
-
-
-
-
-
+// class TCPserver
+// {
+// public:
+//     TCPserver(socket_wrapper::Socket&& client_sock);
+//     TCPserver(const TCPserver&) = delete;
+//     TCPserver() = delete;
+//     //void file_procces_run();
+//     ~TCPserver();
+// private:
+//     socket_wrapper::Socket&& client_sock_;
+//     File_Proccesing f_proc_;
+// };

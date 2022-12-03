@@ -1,16 +1,12 @@
 #include "tcp_server.h"
 
-
 #if !defined(MAX_PATH)
 #   define MAX_PATH (256)
 #endif
 
-
-
 // TCPserver
 //==================================================================================
 //==================================================================================
-
 
 TCPserver::TCPserver(socket_wrapper::Socket&& client_sock) : client_sock_(std::move(client_sock)) {}
 
@@ -127,8 +123,6 @@ std::optional<fs::path> TCPserver::recv_file_path()
     return fs::weakly_canonical(cur_path + separ + file_path);
 }
 
-
-
 bool TCPserver::process()
 {
     auto file_to_send = recv_file_path();
@@ -155,3 +149,17 @@ TCPserver::~TCPserver() {}
 
 
 
+// TCPserver::TCPserver(socket_wrapper::Socket&& client_sock) : client_sock_(std::move(client_sock)) {}
+
+// // void TCPserver::file_procces_run()
+// // {
+// //     while (true)
+// //     {
+// //         std::cout << "Client tid = " << std::this_thread::get_id() << std::endl;
+        
+// //         //f_proc_.process();
+// //     }
+// // }
+
+
+// TCPserver::~TCPserver() {}
