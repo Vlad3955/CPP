@@ -4,8 +4,8 @@ project(openssl-socket-server C CXX)
 
 find_package(OpenSSL REQUIRED)
 
-set(SRC tcp_server.cpp connector.cpp main.cpp open_SSL.cpp)
-set(HEADER tcp_server.h connector.h open_SSL.h file_proc.h)
+set(SRC tcp_server_6.cpp connector.cpp main.cpp open_SSL.cpp)
+set(HEADER tcp_server_6.h connector.h open_SSL.h)
 
 add_executable(openssl-socket-server ${SRC} ${HEADER})
 

@@ -1,4 +1,4 @@
-#include "tcp_server.h"
+#include "tcp_server_6.h"
 
 #if !defined(MAX_PATH)
 #   define MAX_PATH (256)
@@ -146,20 +146,3 @@ bool TCPserver::process()
 }
 
 TCPserver::~TCPserver() {}
-
-
-
-// TCPserver::TCPserver(socket_wrapper::Socket&& client_sock) : client_sock_(std::move(client_sock)) {}
-
-// // void TCPserver::file_procces_run()
-// // {
-// //     while (true)
-// //     {
-// //         std::cout << "Client tid = " << std::this_thread::get_id() << std::endl;
-        
-// //         //f_proc_.process();
-// //     }
-// // }
-
-
-// TCPserver::~TCPserver() {}

@@ -15,7 +15,6 @@
 #include <thread>
 #include <vector>
 
-#include "file_proc.h"
 
 #include <socket_wrapper/socket_headers.h>
 #include <socket_wrapper/socket_wrapper.h>
@@ -69,17 +68,4 @@ private:
     socket_wrapper::Socket client_sock_;
 };
 
-
-
-// class TCPserver
-// {
-// public:
-//     TCPserver(socket_wrapper::Socket&& client_sock);
-//     TCPserver(const TCPserver&) = delete;
-//     TCPserver() = delete;
-//     //void file_procces_run();
-//     ~TCPserver();
-// private:
-//     socket_wrapper::Socket&& client_sock_;
-//     File_Proccesing f_proc_;
-// };
+class File_Proccesing;
