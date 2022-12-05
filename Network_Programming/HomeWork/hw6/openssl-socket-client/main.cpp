@@ -25,18 +25,39 @@ extern "C"
 const auto buffer_size = 256;
 
 
-bool recv_packet(SSL *ssl)
+bool recv_packet(SSL *ssl, const std::string &message)
 {
-    char buf[buffer_size];
+    // char buf[buffer_size];
     int len = 0;
 
-    do
+    // do
+    // {
+    //     len = SSL_read(ssl, buf, buffer_size - 1);
+    //     buf[len] = 0;
+    //     std::cout << buf << std::endl;
+    // }
+    // while (len > 0);
+
+    std::vector<char> buffer(4096);
+    len = SSL_read(ssl, &(buffer.data()[0]), buffer.size());
+
+    if (len > 0)
     {
-        len = SSL_read(ssl, buf, buffer_size - 1);
-        buf[len] = 0;
-        std::cout << buf << std::endl;
+        buffer.resize(len);
+        std::fstream file;
+        file.open(message, std::ios_base::out | std::ios_base::binary);
+
+        if (file.is_open())
+        {
+            std::cout << "Received file!" << std::endl;
+            for (auto& b : buffer)
+            {
+                std::cout << b;
+            }
+            std::cout << std::endl;
+            file.write(&buffer[0], buffer.size());
+        }
     }
-    while (len > 0);
 
     if (len < 0)
     {
@@ -198,30 +219,32 @@ int main(int argc, const char * const argv[])
                 // send the message
                 send_packet(message, ssl);
 
+                recv_packet(ssl, message);
+                // std::vector<char> buffer(4096);
+                // int reply = SSL_read(ssl, &(buffer.data()[0]), buffer.size());
 
-                std::vector<char> buffer(4096);
-                int reply = SSL_read(ssl, &(buffer.data()[0]), buffer.size());
+                // if (reply > 0)
+                // {
+                //     buffer.resize(reply);
+                //     std::fstream file;
+                //     file.open(message, std::ios_base::out | std::ios_base::binary);
 
-                if (reply > 0)
-                {
-                    buffer.resize(reply);
-                    std::fstream file;
-                    file.open(message, std::ios_base::out | std::ios_base::binary);
-
-                    if (file.is_open())
-                    {
-                        std::cout << "Received file!" << std::endl;
-                        for (auto& b : buffer)
-                        {
-                            std::cout << b;
-                        }
-                        std::cout << std::endl;
-                        file.write(&buffer[0], buffer.size());
-                    }
-                }
+                //     if (file.is_open())
+                //     {
+                //         std::cout << "Received file!" << std::endl;
+                //         for (auto& b : buffer)
+                //         {
+                //             std::cout << b;
+                //         }
+                //         std::cout << std::endl;
+                //         file.write(&buffer[0], buffer.size());
+                //     }
+                // }
+             
+               
             }
             SSL_shutdown(ssl);
-
+     
         }
         else if (AF_INET6 == s->ai_family)
         {
