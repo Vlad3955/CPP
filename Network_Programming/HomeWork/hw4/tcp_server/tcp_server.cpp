@@ -11,7 +11,8 @@
 //==================================================================================
 
 
-TCPserver::TCPserver(socket_wrapper::Socket&& client_sock) : client_sock_(std::move(client_sock)) {}
+//TCPserver::TCPserver(socket_wrapper::Socket&& client_sock) : client_sock_(std::move(client_sock)) {}
+TCPserver::TCPserver(int client_sock) : client_sock_(client_sock) {}
 
 std::string TCPserver::get_request()
 {
@@ -171,7 +172,7 @@ socket_wrapper::Socket Connector::connect_to_client(unsigned short port)
     addrinfo hints =
     {
         .ai_flags = AI_PASSIVE,
-        // Неважно, IPv4 или IPv6.
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ, IPv4 пїЅпїЅпїЅ IPv6.
         .ai_family = AF_INET,
         // TCP stream-sockets.
         .ai_socktype = SOCK_STREAM,
@@ -208,7 +209,7 @@ socket_wrapper::Socket Connector::connect_to_client(unsigned short port)
                 sin->sin_family = AF_INET;
                 sin->sin_port = htons(port);
                 //sin->sin_addr.s_addr = INADDR_ANY;
-                inet_pton(AF_INET, "192.168.100.9", &sin->sin_addr);
+                inet_pton(AF_INET, "10.0.2.15", &sin->sin_addr);
 
                 socket_wrapper::Socket s = { AF_INET, SOCK_STREAM, IPPROTO_TCP };
 

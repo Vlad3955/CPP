@@ -21,7 +21,8 @@ int main(int argc, char const* argv[])
 
     socket_wrapper::Socket sock = connector.connect_to_client(port);
 
-    TCPserver tcpserver(std::move(sock));
+    //TCPserver tcpserver(std::move(sock));
+    TCPserver tcpserver(sock);
     tcpserver.server_run();
     
 
