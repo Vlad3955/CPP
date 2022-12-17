@@ -38,19 +38,46 @@ static inline std::string& rtrim(std::string& s)
 }
 
 
-class TCPserver
+// class TCPserver
+// {
+// public:
+//     TCPserver(socket_wrapper::Socket&& client_sock);
+//     TCPserver(const TCPserver&) = delete;
+//     TCPserver() = delete;
+//     std::string get_request();
+//     void server_run();
+//     bool send_file(fs::path const& file_path);
+//     bool send_buffer(const std::vector<char>& buffer);
+//     std::optional<fs::path> recv_file_path();
+//     bool process();
+//     ~TCPserver();
+// private:
+//     static bool need_to_repeat()
+//     {
+//         switch (errno)
+//         {
+//         case EINTR:
+//         case EAGAIN:
+//             // case EWOULDBLOCK: // EWOULDBLOCK == EINTR.
+//             return true;
+//         }
+
+//         return false;
+//     };
+// private:
+//     socket_wrapper::Socket client_sock_;
+// };
+
+class File_Proccesing
 {
 public:
-    TCPserver(socket_wrapper::Socket&& client_sock);
-    TCPserver(const TCPserver&) = delete;
-    TCPserver() = delete;
+    File_Proccesing(int client_sock);
     std::string get_request();
-    void server_run();
     bool send_file(fs::path const& file_path);
     bool send_buffer(const std::vector<char>& buffer);
     std::optional<fs::path> recv_file_path();
     bool process();
-    ~TCPserver();
+    ~File_Proccesing();
 private:
     static bool need_to_repeat()
     {
@@ -65,7 +92,22 @@ private:
         return false;
     };
 private:
-    socket_wrapper::Socket client_sock_;
+    int client_sock_;
 };
 
-class File_Proccesing;
+class TCPserver
+{
+public:
+    TCPserver(int client_sock);
+    void server_run();
+    ~TCPserver();
+private:
+    int client_sock_;
+    File_Proccesing f_proc;
+};
+
+
+
+
+
+
