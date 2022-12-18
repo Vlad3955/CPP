@@ -99,16 +99,18 @@ int main(int argc, char const* argv[])
                 char message[256];
                 printf("Enter message: ");
                 std::cin.getline(message, 256);
+                int len = 0;
 
                 // send the message
                 send(s, message, strlen(message), 0);
 
 
-                std::vector<char> buffer;
-                recv(s, &(buffer.data()[0]), buffer.size(), 0);
+                std::vector<char> buffer(4096);
+                len = recv(s, &(buffer.data()[0]), buffer.size(), 0);
 
-                if (!buffer.empty())
+                if (len > 0)
                 {
+                    buffer.resize(len);
                     std::fstream file;
                     file.open(message, std::ios_base::out | std::ios_base::binary);
 
@@ -159,16 +161,18 @@ int main(int argc, char const* argv[])
                 char message[256];
                 printf("Enter message: ");
                 std::cin.getline(message, 256);
+                int len = 0;
 
                 // send the message
                 send(s, message, strlen(message), 0);
 
 
-                std::vector<char> buffer(256);
-                recv(s, &(buffer.data()[0]), buffer.size(), 0);
+                std::vector<char> buffer(4096);
+                len = recv(s, &(buffer.data()[0]), buffer.size(), 0);
 
-                if (!buffer.empty())
+                if (len > 0)
                 {
+                    buffer.resize(len);
                     std::fstream file;
                     file.open(message, std::ios_base::out | std::ios_base::binary);
 

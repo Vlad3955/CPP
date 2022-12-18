@@ -19,34 +19,38 @@
 #include <socket_wrapper/socket_wrapper.h>
 #include <socket_wrapper/socket_class.h>
 
+
+const auto buffer_size = 4096;
 namespace fs = std::filesystem;
-const auto buf_size = 4096;
 
 #if defined(_WIN32)
 const wchar_t separ = fs::path::preferred_separator;
 #else
-const wchar_t sep = *reinterpret_cast<const wchar_t*>(&fs::path::preferred_separator);
+const wchar_t separ = *reinterpret_cast<const wchar_t*>(&fs::path::preferred_separator);
 #endif
 
-extern "C"
+// Trim from end (in place).
+static inline std::string& rtrim(std::string& s)
 {
-#include <openssl/ssl.h>
-#include <openssl/err.h>
+    s.erase(std::find_if(s.rbegin(), s.rend(), [](int c) { return !std::isspace(c); }).base());
+    return s;
 }
 
 #if !defined(MAX_PATH)
 #   define MAX_PATH (256)
 #endif
 
-
-class open_SSL
+class File_Proccesing
 {
+public:
+    File_Proccesing();
+    std::string get_request();
+    bool send_file(fs::path const& file_path);
+    bool send_buffer(const std::vector<char>& buffer);
+    std::optional<fs::path> recv_file_path();
+    bool process(int client_sock);
+    ~File_Proccesing();
 private:
-  socket_wrapper::Socket client_sock_;
-  const SSL_METHOD *meth {nullptr};
-  SSL_CTX *ctx {nullptr};
-  SSL *ssl = nullptr;
-  private:
     static bool need_to_repeat()
     {
         switch (errno)
@@ -59,21 +63,6 @@ private:
 
         return false;
     };
-public:
-    open_SSL(socket_wrapper::Socket&& client_sock);
-    bool ssl_init();
-
-    std::string get_request();
-    bool send_file(fs::path const& file_path);
-    bool send_buffer(const std::vector<char>& buffer);
-    std::optional<fs::path> recv_file_path();
-    bool process();
-
-
-
-    bool recv_packet(SSL *ssl);
-    bool send_packet(const std::string &buf, SSL *ssl);
-    void client_processing();
-    void log_ssl();
-    ~open_SSL();
+private:
+    int client_sock_;
 };
