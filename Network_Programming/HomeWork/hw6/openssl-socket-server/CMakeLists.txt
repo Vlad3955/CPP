@@ -9,7 +9,7 @@ set(HEADER tcp_server_6.h connector.h open_SSL.h file_proccesing.h)
 
 add_executable(openssl-socket-server ${SRC} ${HEADER})
 
+
 #add_executable("${PROJECT_NAME}" "main.cpp" "tcp_server.cpp" "tcp_server.h")
 target_link_libraries("${PROJECT_NAME}" pthread OpenSSL::SSL OpenSSL::Crypto)
 target_link_libraries("${PROJECT_NAME}" socket-wrapper)
-

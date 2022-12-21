@@ -6,14 +6,14 @@ File_Proccesing::File_Proccesing(){}
 
 std::string File_Proccesing::get_request()
 {
-    std::array<char, MAX_PATH + 1> buffer;
+    std::array<char, MAX_PATH + 1> buffer_request;
     size_t recv_bytes = 0;
-    const auto size = buffer.size() - 1;
-
+    const auto size = buffer_request.size() - 1;
+    
     std::cout << "Reading user request..." << std::endl;
     while (true)
     {
-        auto result = recv(client_sock_, &buffer[recv_bytes], size - recv_bytes, 0);
+        auto result = recv(client_sock_, &buffer_request[recv_bytes], size - recv_bytes, 0);
 
         if (!result) break;
 
@@ -23,10 +23,10 @@ std::string File_Proccesing::get_request()
             throw std::logic_error("Socket reading error");
         }
 
-        auto fragment_begin = buffer.begin() + recv_bytes;
+        auto fragment_begin = buffer_request.begin() + recv_bytes;
         auto ret_iter = std::find_if(fragment_begin, fragment_begin + result,
             [](char sym) { return '\n' == sym || '\r' == sym;  });
-        if (ret_iter != buffer.end())
+        if (ret_iter != buffer_request.end())
         {
             *ret_iter = '\0';
             recv_bytes += std::distance(fragment_begin, ret_iter);
@@ -36,9 +36,9 @@ std::string File_Proccesing::get_request()
         if (size == recv_bytes) break;
     }
 
-    buffer[recv_bytes] = '\0';
+    buffer_request[recv_bytes] = '\0';
 
-    auto result = std::string(buffer.begin(), buffer.begin() + recv_bytes);
+    auto result = std::string(buffer_request.begin(), buffer_request.begin() + recv_bytes);
     std::cout << "Request = \"" << result << "\"" << std::endl;
 
     return result;
@@ -82,6 +82,38 @@ bool File_Proccesing::send_file(fs::path const& file_path)
 
     return true;
 }
+
+// recv_file_path with boost trim_right_copy
+//=========================================================================
+
+// std::optional<fs::path> File_Proccesing::recv_file_path()
+//    {
+//        std::string request_data = trim_right_copy(get_request());
+
+//        if (!request_data.size()) return std::nullopt;
+
+//        auto cur_path = fs::current_path().u8string();
+//        auto file_path = fs::weakly_canonical(request_data).u8string();
+
+
+//        #if defined(_WIN32)
+//        std::transform(cur_path.begin(), cur_path.end(), cur_path.begin(),
+//            [](wchar_t c) { return std::towlower(c); }
+//        );
+//        std::transform(file_path.begin(), file_path.end(), file_path.begin(),
+//            [](wchar_t c) { return std::towlower(c); }
+//        );
+//        #endif
+//        if (file_path.find(cur_path) == 0)
+//        {
+//            file_path = file_path.substr(cur_path.length());
+//        }
+
+//        return fs::weakly_canonical(cur_path + separ + file_path);
+//    }
+
+//=========================================================================
+
 
 std::optional<fs::path> File_Proccesing::recv_file_path()
 {

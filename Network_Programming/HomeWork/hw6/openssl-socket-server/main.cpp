@@ -17,12 +17,12 @@ int main(int argc, const char * const argv[])
     Connector connector;
     std::cout << "Starting TCP-server on the port " << port << "...\n";
     socket_wrapper::Socket sock = connector.connect_to_client(port);
-    // TCPserver tcpserver(std::move(sock));
-    // tcpserver.server_run();
+    TCPserver tcpserver(std::move(sock));
+    tcpserver.server_run();
 
-    open_SSL oSSL(std::move(sock));
-    oSSL.ssl_init();
-    oSSL.client_processing();
+    // open_SSL oSSL(std::move(sock));
+    // oSSL.ssl_init();
+    // oSSL.client_processing();
     
 
     return EXIT_SUCCESS;

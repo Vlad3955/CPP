@@ -20,14 +20,17 @@
 #include <socket_wrapper/socket_class.h>
 
 
+
 const auto buffer_size = 4096;
 namespace fs = std::filesystem;
 
+
 #if defined(_WIN32)
-const wchar_t separ = fs::path::preferred_separator;
-#else
-const wchar_t separ = *reinterpret_cast<const wchar_t*>(&fs::path::preferred_separator);
-#endif
+ const wchar_t separ = fs::path::preferred_separator;
+ #else
+ const wchar_t separ = *reinterpret_cast<const wchar_t*>(&fs::path::preferred_separator);
+ #endif
+
 
 // Trim from end (in place).
 static inline std::string& rtrim(std::string& s)

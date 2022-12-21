@@ -15,6 +15,8 @@
 #include <thread>
 #include <vector>
 
+#include "file_proccesing.h"
+
 #include <socket_wrapper/socket_headers.h>
 #include <socket_wrapper/socket_wrapper.h>
 #include <socket_wrapper/socket_class.h>
