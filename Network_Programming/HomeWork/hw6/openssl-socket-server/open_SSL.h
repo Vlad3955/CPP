@@ -64,15 +64,11 @@ private:
 public:
     open_SSL(socket_wrapper::Socket&& client_sock);
     bool ssl_init();
-
     std::string get_request();
     bool send_file(fs::path const& file_path);
     bool send_buffer(const std::vector<char>& buffer);
     std::optional<fs::path> recv_file_path();
     bool process();
-
-
-
     bool recv_packet(SSL *ssl);
     bool send_packet(const std::string &buf, SSL *ssl);
     void client_processing();

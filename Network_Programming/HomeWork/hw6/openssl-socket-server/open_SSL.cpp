@@ -38,21 +38,6 @@ bool open_SSL::ssl_init()
         return false;
     }
 
-    // //Загрузка сертификата.
-    // if (SSL_CTX_use_certificate_file(ctx, "/home/vlad/CPP/Pract/HomeWork/build/certificates/server.pem", SSL_FILETYPE_PEM) <= 0)
-    // {
-    //     ERR_print_errors_fp(stderr);
-    //     return false;
-    // }
-
-    // // Загрузка ключа.
-    // if (SSL_CTX_use_PrivateKey_file(ctx, "/home/vlad/CPP/Pract/HomeWork/build/certificates/key.pem", SSL_FILETYPE_PEM) <= 0 )
-    // {
-    //     ERR_print_errors_fp(stderr);
-    //     return false;
-    // }
-
-
     // verify private key
     if ( !SSL_CTX_check_private_key(ctx) )
     {
@@ -62,8 +47,6 @@ bool open_SSL::ssl_init()
 
     return true;
 }
-
-
 
 std::string open_SSL::get_request()
 {
@@ -75,7 +58,6 @@ std::string open_SSL::get_request()
     while (true)
     {
         auto result = SSL_read(ssl, &buffer[recv_bytes], size - recv_bytes);
-        //auto result = recv(client_sock_, &buffer[recv_bytes], size - recv_bytes, 0);
 
         if (!result) break;
 
@@ -114,7 +96,6 @@ bool open_SSL::send_buffer(const std::vector<char>& buffer)
     while (transmit_bytes_count != size)
     {
         auto result = SSL_write(ssl, &(buffer.data()[0]) + transmit_bytes_count, size - transmit_bytes_count);
-        //auto result = send(client_sock_, &(buffer.data()[0]) + transmit_bytes_count, size - transmit_bytes_count, 0);
         if (-1 == result)
         {
             if (need_to_repeat()) continue;

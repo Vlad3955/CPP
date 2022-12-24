@@ -1,6 +1,7 @@
 #pragma once
 #include "openssl_socket_client.h"
 
+
 class Connector
 {
 public:

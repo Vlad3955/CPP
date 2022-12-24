@@ -23,6 +23,28 @@
 #include <socket_wrapper/socket_class.h>
 
 
+class TCPserver
+{
+public:
+    TCPserver(socket_wrapper::Socket&& client_sock);
+    TCPserver(const TCPserver&) = delete;
+    TCPserver() = delete;
+    void server_run();
+    ~TCPserver();
+private:
+    int client_sock_;
+    File_Proccesing f_proc;
+};
+
+
+
+
+
+
+//==========================================================================
+// VARIANT I - with file proccesing in tcp_server_6 class                 ||
+//==========================================================================
+
 // class TCPserver
 // {
 // public:
@@ -52,23 +74,3 @@
 // private:
 //     socket_wrapper::Socket client_sock_;
 // };
-
-
-class TCPserver
-{
-public:
-    TCPserver(socket_wrapper::Socket&& client_sock);
-    TCPserver(const TCPserver&) = delete;
-    TCPserver() = delete;
-    void server_run();
-    ~TCPserver();
-private:
-    int client_sock_;
-    File_Proccesing f_proc;
-};
-
-
-
-
-
-

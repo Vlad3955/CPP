@@ -1,5 +1,6 @@
 #include "openssl_socket_client.h"
 #include "connector.h"
+#include "tcp_client_6.h"
 
 
 int main(int argc, const char * const argv[])
@@ -15,9 +16,12 @@ int main(int argc, const char * const argv[])
     Connector connector;
     socket_wrapper::Socket sock = connector.connect_to_server(port);
 
-    Openssl_Socket_Client osc(std::move(sock));
-    osc.ssl_init();
-    osc.server_connect();
+    TCPclient cl(std::move(sock));
+    cl.proccesing();
+
+    // Openssl_Socket_Client osc(std::move(sock));
+    // osc.ssl_init();
+    // osc.server_connect();
 
     return EXIT_SUCCESS;
 }

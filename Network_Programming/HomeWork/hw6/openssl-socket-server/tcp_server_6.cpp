@@ -1,11 +1,29 @@
 #include "tcp_server_6.h"
 
 
-// TCPserver
-//==================================================================================
-//==================================================================================
+TCPserver::TCPserver(socket_wrapper::Socket&& client_sock) : client_sock_(client_sock) {}
 
-// TCPserver::TCPserver(socket_wrapper::Socket&& client_sock) : client_sock_(std::move(client_sock)) {}
+void TCPserver::server_run()
+{
+    while (true)
+    {
+        std::cout << "Client tid = " << std::this_thread::get_id() << std::endl;
+        
+        f_proc.process(client_sock_);
+    }
+}
+
+TCPserver::~TCPserver() {}
+
+
+
+
+//==========================================================================
+// VARIANT I - with file proccesing in tcp_server_6 class                 ||
+//==========================================================================
+
+// TCPserver::TCPserver(socket_wrapper::Socket&& client_sock) 
+//    : client_sock_(std::move(client_sock)) {}
 
 // std::string TCPserver::get_request()
 // {
@@ -143,20 +161,3 @@
 // }
 
 // TCPserver::~TCPserver() {}
-
-
-
-
-TCPserver::TCPserver(socket_wrapper::Socket&& client_sock) : client_sock_(client_sock) {}
-
-void TCPserver::server_run()
-{
-    while (true)
-    {
-        std::cout << "Client tid = " << std::this_thread::get_id() << std::endl;
-        
-        f_proc.process(client_sock_);
-    }
-}
-
-TCPserver::~TCPserver() {}
